@@ -1,0 +1,22 @@
+{
+  "name": "orvyn",
+  "private": true,
+  "type": "module",
+  "description": "Orvyn, by Tenet: buyer protection for AI agents that buy. SDK, MCP server, session key on Arc, demo agent and page.",
+  "bin": {
+    "orvyn-mcp": "mcp/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.3",
+    "viem": "2.55.4"
+  },
+  "license": "MIT",
+  "repository": "github:randyparrs/orvyn",
+  "scripts": {
+    "test": "node test/encode.test.mjs && node test/sdk.test.mjs && node test/mcp.test.mjs && node demo/agent.test.mjs && node demo/dprep.test.mjs && node site/test/page.test.mjs"
+  }
+}

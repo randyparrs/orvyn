@@ -1,0 +1,862 @@
+{
+  "meta": {
+    "product": "Orvyn",
+    "by": "Tenet",
+    "status": "Arc testnet. No mainnet deployment."
+  },
+  "explorers": {
+    "arc": "https://explorer.testnet.arc.io",
+    "genlayer": "https://scan.bradbury.genlayer.com"
+  },
+  "console": {
+    "title": "Agent console",
+    "subtitle": "claude-haiku-5.5 · orvyn MCP · Arc testnet",
+    "caption": "Replay of the 2026-11-02 run, sped up",
+    "durationMs": 36500,
+    "lines": [
+      {
+        "at": "14:35:07 UTC",
+        "kind": "owner",
+        "text": "Buy the clear phone case at TechShopping (techshopping.site) and pay for it with Orvyn."
+      },
+      {
+        "at": "14:35:09 UTC",
+        "kind": "call",
+        "tool": "store_catalog",
+        "args": {}
+      },
+      {
+        "at": "14:35:09 UTC",
+        "kind": "call",
+        "tool": "rules",
+        "args": {}
+      },
+      {
+        "at": "14:35:09 UTC",
+        "kind": "result",
+        "tool": "store_catalog",
+        "text": "3 products"
+      },
+      {
+        "at": "14:35:09 UTC",
+        "kind": "result",
+        "tool": "rules",
+        "text": "limits: 2.00 USDC per order, 3.00 USDC a day, 3.00 USDC left today"
+      },
+      {
+        "at": "14:35:10 UTC",
+        "kind": "call",
+        "tool": "store_buy",
+        "args": {
+          "product": "case"
+        }
+      },
+      {
+        "at": "14:35:11 UTC",
+        "kind": "result",
+        "tool": "store_buy",
+        "text": "order TS-648527"
+      },
+      {
+        "at": "14:35:12 UTC",
+        "kind": "call",
+        "tool": "pay_link",
+        "args": {
+          "link": "https://paytenet.site/#pay/TS-648527"
+        }
+      },
+      {
+        "at": "14:35:20 UTC",
+        "kind": "owner_ok",
+        "tool": "pay_link",
+        "text": "Owner approved the signature"
+      },
+      {
+        "at": "14:35:27 UTC",
+        "kind": "result",
+        "tool": "pay_link",
+        "text": "paid 1.00 USDC into escrow for TS-648527; the store's terms match"
+      },
+      {
+        "at": "14:35:28 UTC",
+        "kind": "agent",
+        "text": "Done. I bought the clear phone case (order TS-648527) for 1 USDC and paid it through Orvyn. The payment is held in escrow for 30 days, and the store's terms matched the escrow."
+      },
+      {
+        "at": "14:36:59 UTC",
+        "kind": "owner",
+        "text": "The delivery date for the phone case has passed and it never arrived. Please handle it."
+      },
+      {
+        "at": "14:37:01 UTC",
+        "kind": "call",
+        "tool": "order_status",
+        "args": {
+          "order": "TS-648527"
+        }
+      },
+      {
+        "at": "14:37:01 UTC",
+        "kind": "result",
+        "tool": "order_status",
+        "text": "TS-648527: paid, no claim"
+      },
+      {
+        "at": "14:37:03 UTC",
+        "kind": "call",
+        "tool": "open_claim",
+        "args": {
+          "order": "TS-648527",
+          "event": "not_delivered",
+          "account": "Order TS-648527 for a clear phone case (1 USDC) was paid through Or..."
+        }
+      },
+      {
+        "at": "14:37:07 UTC",
+        "kind": "owner_ok",
+        "tool": "open_claim",
+        "text": "Owner approved the signature"
+      },
+      {
+        "at": "14:37:14 UTC",
+        "kind": "result",
+        "tool": "open_claim",
+        "text": "claim opened on TS-648527: not_delivered; the store has its window"
+      },
+      {
+        "at": "14:37:15 UTC",
+        "kind": "agent",
+        "text": "I opened a \"not delivered\" claim on order TS-648527. The store's confirmed and shipped emails show a promised date that has passed, and the case hasn't arrived. The store now has a window to respond. I can check the status again whenever you like."
+      },
+      {
+        "at": "14:37:51 UTC",
+        "kind": "owner",
+        "text": "Now buy the 65 W USB-C charger at TechShopping and pay for it."
+      },
+      {
+        "at": "14:37:53 UTC",
+        "kind": "call",
+        "tool": "store_buy",
+        "args": {
+          "product": "charger"
+        }
+      },
+      {
+        "at": "14:37:54 UTC",
+        "kind": "result",
+        "tool": "store_buy",
+        "text": "order TS-755534"
+      },
+      {
+        "at": "14:37:55 UTC",
+        "kind": "call",
+        "tool": "pay_link",
+        "args": {
+          "link": "https://paytenet.site/#pay/TS-755534"
+        }
+      },
+      {
+        "at": "14:37:58 UTC",
+        "kind": "owner_ok",
+        "tool": "pay_link",
+        "text": "Owner approved the signature"
+      },
+      {
+        "at": "14:38:05 UTC",
+        "kind": "result",
+        "tool": "pay_link",
+        "text": "paid 2.00 USDC into escrow for TS-755534; the store's terms match"
+      },
+      {
+        "at": "14:38:06 UTC",
+        "kind": "agent",
+        "text": "I bought the 65 W USB-C charger (order TS-755534) for 2 USDC and paid it through Orvyn. It's held in escrow for 30 days, and the store's terms matched."
+      },
+      {
+        "at": "14:52:43 UTC",
+        "kind": "owner",
+        "text": "The charger arrived today, but it is not what was described: it is a 20 W charger, not 65 W. Please handle it."
+      },
+      {
+        "at": "14:52:48 UTC",
+        "kind": "call",
+        "tool": "open_claim",
+        "args": {
+          "order": "TS-755534",
+          "event": "not_as_described",
+          "account": "Order TS-755534 was for a USB-C wall charger, 65 W, model TS-C65, w...",
+          "promised": "USB-C wall charger, 65 W, model TS-C65, with a 1 m cable",
+          "received": "20 W charger",
+          "delivered_date": "2026-11-02"
+        }
+      },
+      {
+        "at": "14:53:04 UTC",
+        "kind": "owner_ok",
+        "tool": "open_claim",
+        "text": "Owner approved the signature"
+      },
+      {
+        "at": "14:53:48 UTC",
+        "kind": "orvyn_asks_owner",
+        "text": "Your agent wants to open a \"not_as_described\" claim on order TS-755534. Its words: \"...\". It needs proof from you: what the label, model or serial number shows."
+      },
+      {
+        "at": "14:53:48 UTC",
+        "kind": "owner_answers",
+        "text": "approve; label: \"Output 20 W\""
+      },
+      {
+        "at": "14:53:54 UTC",
+        "kind": "result",
+        "tool": "open_claim",
+        "text": "claim opened on TS-755534: not_as_described; the store has its window"
+      },
+      {
+        "at": "14:53:56 UTC",
+        "kind": "agent",
+        "text": "I opened a \"not as described\" claim on order TS-755534. The charger was listed as 65 W and you received a 20 W unit. The store now has a window to respond. ..."
+      },
+      {
+        "at": "15:27:16 UTC",
+        "kind": "owner",
+        "text": "Check both orders. If their refunds are settled, withdraw them."
+      },
+      {
+        "at": "15:27:18 UTC",
+        "kind": "call",
+        "tool": "order_status",
+        "args": {
+          "order": "TS-648527"
+        }
+      },
+      {
+        "at": "15:27:18 UTC",
+        "kind": "call",
+        "tool": "order_status",
+        "args": {
+          "order": "TS-755534"
+        }
+      },
+      {
+        "at": "15:27:19 UTC",
+        "kind": "result",
+        "tool": "order_status",
+        "text": "TS-648527: REFUND 1.00 USDC (per policy), final; settled on Arc"
+      },
+      {
+        "at": "15:27:19 UTC",
+        "kind": "verdict",
+        "order": "TS-648527",
+        "outcome": "REFUND",
+        "refund_usdc": 1,
+        "reason": "per policy"
+      },
+      {
+        "at": "15:27:19 UTC",
+        "kind": "result",
+        "tool": "order_status",
+        "text": "TS-755534: REFUND 2.00 USDC (per policy), final; settled on Arc"
+      },
+      {
+        "at": "15:27:19 UTC",
+        "kind": "verdict",
+        "order": "TS-755534",
+        "outcome": "REFUND",
+        "refund_usdc": 2,
+        "reason": "per policy"
+      },
+      {
+        "at": "15:27:20 UTC",
+        "kind": "agent",
+        "text": "Both refunds are settled: 1 USDC for TS-648527 and 2 USDC for TS-755534. Withdrawing now."
+      },
+      {
+        "at": "15:27:20 UTC",
+        "kind": "call",
+        "tool": "withdraw",
+        "args": {}
+      },
+      {
+        "at": "15:27:28 UTC",
+        "kind": "owner_ok",
+        "tool": "withdraw",
+        "text": "Owner approved the signature"
+      },
+      {
+        "at": "15:27:34 UTC",
+        "kind": "result",
+        "tool": "withdraw",
+        "text": "withdrew 3.00 USDC to the account"
+      },
+      {
+        "at": "15:27:35 UTC",
+        "kind": "agent",
+        "text": "Both refunds are settled, and I withdrew 3 USDC to your wallet."
+      }
+    ]
+  },
+  "what": {
+    "sessionKey": [
+      {
+        "label": "per order",
+        "value": "2.00 USDC"
+      },
+      {
+        "label": "orders",
+        "value": "2"
+      },
+      {
+        "label": "valid",
+        "value": "24 h"
+      }
+    ],
+    "claimRules": [
+      {
+        "event": "not_delivered",
+        "mode": "auto"
+      },
+      {
+        "event": "not_as_described",
+        "mode": "ask_owner"
+      }
+    ],
+    "verdict": {
+      "refund_usdc": 2,
+      "outcome": "REFUND",
+      "reason": "per policy",
+      "final": true,
+      "judge": "GenLayer"
+    }
+  },
+  "how": {
+    "paymentLink": "#pay/TS-648527"
+  },
+  "mcp": {
+    "variables": [
+      {
+        "name": "ORVYN_RULES",
+        "description": "The owner's rules (JSON, see [The owner's rules](#rules))"
+      },
+      {
+        "name": "ORVYN_SIGNER",
+        "description": "The signer module; `aa/mcp-signer.mjs` signs with the session key and the owner's approval"
+      },
+      {
+        "name": "ORVYN_SESSION_KEY_FILE",
+        "description": "The agent's session key"
+      },
+      {
+        "name": "ORVYN_APPROVALS",
+        "description": "The owner's approval of that key (no private key in it)"
+      },
+      {
+        "name": "ORVYN_LEDGER",
+        "description": "Spend and claim counts (no keys, no personal data)"
+      },
+      {
+        "name": "ORVYN_RPC",
+        "description": "Optional; Arc testnet by default"
+      }
+    ],
+    "clientConfig": {
+      "mcpServers": {
+        "orvyn": {
+          "command": "node",
+          "args": [
+            "--permission",
+            "--allow-fs-read=/home/me/orvyn",
+            "--allow-fs-read=/home/me/.orvyn/orvyn-session.env",
+            "--allow-fs-read=/home/me/.orvyn/data",
+            "--allow-fs-write=/home/me/.orvyn/data",
+            "/home/me/orvyn/mcp/server.js"
+          ],
+          "env": {
+            "ORVYN_RULES": "/home/me/orvyn/rules.json",
+            "ORVYN_SIGNER": "/home/me/orvyn/aa/mcp-signer.mjs",
+            "ORVYN_SESSION_KEY_FILE": "/home/me/.orvyn/orvyn-session.env",
+            "ORVYN_APPROVALS": "/home/me/orvyn/aa/approvals.json",
+            "ORVYN_LEDGER": "/home/me/.orvyn/data/ledger.json"
+          }
+        }
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "pay_link",
+      "signs": true,
+      "summary": "Pays a Tenet Pay payment link inside the owner's limits.",
+      "details": "The money goes into escrow, not to the store. Refused if the store's terms do not match the escrow.",
+      "inputs": [
+        "link"
+      ],
+      "inputsHint": "the link or the order number"
+    },
+    {
+      "name": "order_status",
+      "signs": false,
+      "summary": "An order's state: paid, store emails, claim, the judge's steps, the settlement and what comes next.",
+      "inputs": [
+        "order"
+      ]
+    },
+    {
+      "name": "open_claim",
+      "signs": true,
+      "summary": "Opens a claim on an order this wallet paid. One claim per order.",
+      "details": "There is no proof field: the owner is asked. A `late` claim needs a delivery email verified by Lacre, which is not live on this network yet, so today it is refused.",
+      "inputs": [
+        "order",
+        "event",
+        "account"
+      ],
+      "inputsExtra": {
+        "label": "for not_as_described also",
+        "names": [
+          "promised",
+          "received",
+          "delivered_date"
+        ]
+      },
+      "inputsNote": "`event`: `late`, `not_delivered`, `not_as_described`; `account`: up to 500 characters"
+    },
+    {
+      "name": "submit_evidence",
+      "signs": true,
+      "summary": "Sends what the escrow is waiting for from the buyer.",
+      "details": "The store emails listed by Tenet, or the owner's proof (asked to the owner).",
+      "inputs": [
+        "order"
+      ]
+    },
+    {
+      "name": "withdraw",
+      "signs": true,
+      "summary": "Withdraws this wallet's refunds from the escrow to the wallet.",
+      "inputs": []
+    },
+    {
+      "name": "rules",
+      "signs": false,
+      "summary": "The owner's rules and what is left of the limits.",
+      "inputs": []
+    }
+  ],
+  "rules": {
+    "fields": [
+      {
+        "name": "max_per_order_usdc",
+        "meaning": "Largest order the agent may pay"
+      },
+      {
+        "name": "max_per_day_usdc",
+        "meaning": "Spend in the last 24 hours"
+      },
+      {
+        "name": "max_claims_per_week",
+        "meaning": "Claims in the last 7 days"
+      },
+      {
+        "name": "claims",
+        "meaning": "Per event: `auto` (the agent opens it), `ask_owner` (the owner approves), `never`"
+      }
+    ],
+    "example": {
+      "max_per_order_usdc": 5,
+      "max_per_day_usdc": 10,
+      "max_claims_per_week": 3,
+      "claims": {
+        "late": "auto",
+        "not_delivered": "auto",
+        "not_as_described": "ask_owner"
+      }
+    }
+  },
+  "demo": {
+    "date": "2026-11-02",
+    "facts": [
+      {
+        "label": "Model",
+        "text": "`anthropic/claude-haiku-5.5` through OpenRouter, connected to the Orvyn MCP server."
+      },
+      {
+        "label": "Store",
+        "text": "TechShopping, a test store that sells through Tenet Pay."
+      },
+      {
+        "label": "Owner's key for the day",
+        "text": "2 orders, up to 2.00 USDC each, valid 24 hours."
+      },
+      {
+        "label": "Owner's rules",
+        "text": "2.00 per order, 3.00 a day, `not_delivered: auto`, `not_as_described: ask_owner`."
+      },
+      {
+        "label": "Owner",
+        "text": "The owner's messages were fixed before the run, and every signature waited for the owner's OK."
+      }
+    ],
+    "steps": [
+      {
+        "id": "M1",
+        "at": "14:35:07 UTC",
+        "owner": "Buy the clear phone case at TechShopping (techshopping.site) and pay for it with Orvyn.",
+        "items": [
+          {
+            "type": "call",
+            "tool": "store_catalog",
+            "args": null,
+            "note": null,
+            "ownerOk": false
+          },
+          {
+            "type": "call",
+            "tool": "rules",
+            "args": null,
+            "note": null,
+            "ownerOk": false
+          },
+          {
+            "type": "call",
+            "tool": "store_buy",
+            "args": {
+              "product": "case"
+            },
+            "note": "returned order TS-648527",
+            "ownerOk": false
+          },
+          {
+            "type": "call",
+            "tool": "pay_link",
+            "args": {
+              "link": "https://paytenet.site/#pay/TS-648527"
+            },
+            "note": "approve and pay in one operation",
+            "ownerOk": true
+          },
+          {
+            "type": "agent",
+            "text": "Done. I bought the clear phone case (order TS-648527) for 1 USDC and paid it through Orvyn. The payment is held in escrow for 30 days, and the store's terms matched the escrow."
+          }
+        ]
+      },
+      {
+        "id": "M2",
+        "at": "14:36:59 UTC",
+        "owner": "The delivery date for the phone case has passed and it never arrived. Please handle it.",
+        "items": [
+          {
+            "type": "call",
+            "tool": "order_status",
+            "args": {
+              "order": "TS-648527"
+            },
+            "note": null,
+            "ownerOk": false
+          },
+          {
+            "type": "call",
+            "tool": "open_claim",
+            "args": {
+              "order": "TS-648527",
+              "event": "not_delivered",
+              "account": "Order TS-648527 for a clear phone case (1 USDC) was paid through Orvyn. The store sent confirmed and shipped emails with a promised date. That date has passed and the owner has not received the case."
+            },
+            "note": "opened by the agent alone (rule auto)",
+            "ownerOk": true
+          },
+          {
+            "type": "agent",
+            "text": "I opened a \"not delivered\" claim on order TS-648527. The store's confirmed and shipped emails show a promised date that has passed, and the case hasn't arrived. The store now has a window to respond. I can check the status again whenever you like."
+          }
+        ]
+      },
+      {
+        "id": "M3",
+        "at": "14:37:51 UTC",
+        "owner": "Now buy the 65 W USB-C charger at TechShopping and pay for it.",
+        "items": [
+          {
+            "type": "call",
+            "tool": "store_buy",
+            "args": {
+              "product": "charger"
+            },
+            "note": "returned order TS-755534",
+            "ownerOk": false
+          },
+          {
+            "type": "call",
+            "tool": "pay_link",
+            "args": {
+              "link": "https://paytenet.site/#pay/TS-755534"
+            },
+            "note": null,
+            "ownerOk": true
+          },
+          {
+            "type": "agent",
+            "text": "I bought the 65 W USB-C charger (order TS-755534) for 2 USDC and paid it through Orvyn. It's held in escrow for 30 days, and the store's terms matched."
+          }
+        ]
+      },
+      {
+        "id": "M4",
+        "at": "14:52:43 UTC",
+        "owner": "The charger arrived today, but it is not what was described: it is a 20 W charger, not 65 W. Please handle it.",
+        "items": [
+          {
+            "type": "call",
+            "tool": "open_claim",
+            "args": {
+              "order": "TS-755534",
+              "event": "not_as_described",
+              "account": "Order TS-755534 was for a USB-C wall charger, 65 W, model TS-C65, with a 1 m cable. The owner received a 20 W charger instead of the 65 W model described.",
+              "promised": "USB-C wall charger, 65 W, model TS-C65, with a 1 m cable",
+              "received": "20 W charger",
+              "delivered_date": "2026-11-02"
+            },
+            "note": null,
+            "ownerOk": true
+          },
+          {
+            "type": "ask",
+            "question": "Your agent wants to open a \"not_as_described\" claim on order TS-755534. Its words: \"Order TS-755534 was for a USB-C wall charger, 65 W, model TS-C65, with a 1 m cable. The owner received a 20 W charger instead of the 65 W model described.\". It needs proof from you: what the label, model or serial number shows.",
+            "answer": {
+              "approve": true,
+              "proof_kind": "label",
+              "proof": "Output 20 W"
+            }
+          },
+          {
+            "type": "agent",
+            "text": "I opened a \"not as described\" claim on order TS-755534. The charger was listed as 65 W and you received a 20 W unit. The store now has a window to respond. ..."
+          }
+        ]
+      },
+      {
+        "id": "M5",
+        "at": "15:27:16 UTC",
+        "owner": "Check both orders. If their refunds are settled, withdraw them.",
+        "items": [
+          {
+            "type": "call",
+            "tool": "order_status",
+            "args": {
+              "order": "TS-648527"
+            },
+            "note": null,
+            "ownerOk": false
+          },
+          {
+            "type": "call",
+            "tool": "order_status",
+            "args": {
+              "order": "TS-755534"
+            },
+            "note": null,
+            "ownerOk": false
+          },
+          {
+            "type": "agent",
+            "text": "Both refunds are settled: 1 USDC for TS-648527 and 2 USDC for TS-755534. Withdrawing now."
+          },
+          {
+            "type": "call",
+            "tool": "withdraw",
+            "args": null,
+            "note": null,
+            "ownerOk": true
+          },
+          {
+            "type": "agent",
+            "text": "Both refunds are settled, and I withdrew 3 USDC to your wallet."
+          }
+        ]
+      }
+    ],
+    "orders": [
+      {
+        "order": "TS-648527",
+        "claim": "not_delivered",
+        "amount_usdc": 1,
+        "item": "Clear phone case for 6.1 inch phones.",
+        "story": "The store did not answer within its window.",
+        "verdict": {
+          "outcome": "REFUND",
+          "refund_usdc": 1,
+          "reason": "per policy",
+          "final": true,
+          "judge": "GenLayer"
+        },
+        "timeline": [
+          {
+            "time": "14:35:22",
+            "what": "Paid into the escrow",
+            "tx": "0x51ffa0b308d3146ad4b736513140a480ead6f71c5c97419a0a8c7e56d90f0056",
+            "network": "arc"
+          },
+          {
+            "time": "14:36:15",
+            "what": "Store email received: Order TS-648527 confirmed",
+            "tx": null,
+            "network": null
+          },
+          {
+            "time": "14:36:15",
+            "what": "Store email received: Order TS-648527 shipped",
+            "tx": null,
+            "network": null
+          },
+          {
+            "time": "14:37:09",
+            "what": "Claim opened by the buyer",
+            "tx": "0x6ad8ccd58cbaf3aef9fdd688f6274e8147822b933737efaf3135365c4387db0f",
+            "network": "arc"
+          },
+          {
+            "time": "14:42:14",
+            "what": "No-response marker after the window; registered: no response (anyone)",
+            "tx": "0x837b1acb9cf07de811268b709013b0382345e8fce829e59f4defcd8a00541357",
+            "network": "arc"
+          },
+          {
+            "time": "14:43:14",
+            "what": "Step 1 sent to the judge, attempt 1; final at 14:45:14: REFUND 1.00 USDC (per policy)",
+            "tx": "0x8e398cd81cd74d45716b33373f0158207e3ece75146295eb838108837920361a",
+            "network": "genlayer"
+          },
+          {
+            "time": "14:46:13",
+            "what": "Verdict proposed on Arc",
+            "tx": "0x35c6a208c1275b25a165220a709b7f052b94d4731537beecad9ee6b4af2891d8",
+            "network": "arc"
+          },
+          {
+            "time": "14:49:13",
+            "what": "Verdict executed, settled on Arc",
+            "tx": "0x101984b936f590378bfff9341762b214ecf2c88ce8eac060b91e370c3d3f18b5",
+            "network": "arc"
+          }
+        ]
+      },
+      {
+        "order": "TS-755534",
+        "claim": "not_as_described",
+        "amount_usdc": 2,
+        "item": "USB-C wall charger, 65 W, model TS-C65, with a 1 m cable.",
+        "story": "The store answered that it shipped a 20 W charger by mistake.",
+        "verdict": {
+          "outcome": "REFUND",
+          "refund_usdc": 2,
+          "reason": "per policy",
+          "final": true,
+          "judge": "GenLayer"
+        },
+        "timeline": [
+          {
+            "time": "14:38:01",
+            "what": "Paid into the escrow",
+            "tx": "0x6838ebe51750d0d4332a8afd7de7ba1cbce746b3d0b161408703b68bf868436b",
+            "network": "arc"
+          },
+          {
+            "time": "14:38:16",
+            "what": "Store email received: Order TS-755534 confirmed",
+            "tx": null,
+            "network": null
+          },
+          {
+            "time": "14:38:16",
+            "what": "Store email received: Order TS-755534 shipped",
+            "tx": null,
+            "network": null
+          },
+          {
+            "time": "14:38:16",
+            "what": "Store email received: Order TS-755534 delivered",
+            "tx": null,
+            "network": null
+          },
+          {
+            "time": "14:53:49",
+            "what": "Claim opened by the buyer",
+            "tx": "0x5e7a8b8cc6e8f20008d533624af8259c4bb7a06c6ad28af45cb2ee1b9f82bda1",
+            "network": "arc"
+          },
+          {
+            "time": "14:56:35",
+            "what": "Registered: response (store)",
+            "tx": "0x5acdedbcc007d509b968d0f54d97d7d49d6128064e339f28ea3b4d23ec3dfeb7",
+            "network": "arc"
+          },
+          {
+            "time": "14:57:15",
+            "what": "Step 1 sent to the judge, attempt 1; final at 14:59:14: REFUND 2.00 USDC (per policy)",
+            "tx": "0x19ab10a8739d4a0fbc8bbcd5db771fde938880c209e486597ca0961fac77008b",
+            "network": "genlayer"
+          },
+          {
+            "time": "15:00:15",
+            "what": "Verdict proposed on Arc",
+            "tx": "0xbf4c1df76971b1624cd30873c5bef3c917573825e93709350436b93a73f73744",
+            "network": "arc"
+          },
+          {
+            "time": "15:03:14",
+            "what": "Verdict executed, settled on Arc",
+            "tx": "0xa41a780a2d3ac56a1140cf49cc466a4a07958c4abf6942e478eccc06f3dbc5ec",
+            "network": "arc"
+          }
+        ]
+      }
+    ],
+    "totals": [
+      {
+        "value": "3.00 USDC",
+        "label": "refunded and withdrawn",
+        "link": {
+          "label": "withdraw",
+          "network": "arc",
+          "tx": "0x83abb70ef2e9b283a35d5840dd45bb25f16ec2f8b8c8ed51871401df4e22785c"
+        }
+      },
+      {
+        "value": "5 operations",
+        "label": "from the agent's account, 0.1127 USDC of gas"
+      },
+      {
+        "value": "16 model calls",
+        "label": "0.0071 USD on OpenRouter"
+      }
+    ],
+    "incident": "The first try of the charger claim stopped before signing. The agent's MCP client timed out at 60 seconds while the owner was answering. Nothing was signed. The owner now has 10 minutes, and with no answer nothing is signed."
+  },
+  "network": [
+    {
+      "label": "Chain",
+      "text": "Arc testnet, chain id 5042002"
+    },
+    {
+      "label": "USDC",
+      "mono": "0x3600000000000000000000000000000000000000"
+    },
+    {
+      "label": "Escrow",
+      "mono": "0x17FBCDF5c1780DfE29dcE5aFf2E3D3921d393798"
+    },
+    {
+      "label": "Judge",
+      "text": "GenLayer Bradbury",
+      "mono": "0xAe753BaE3c7525b90BdA8D177eE71A547F17d17a"
+    },
+    {
+      "label": "Explorers",
+      "links": [
+        "https://explorer.testnet.arc.io",
+        "https://scan.bradbury.genlayer.com"
+      ]
+    }
+  ]
+}

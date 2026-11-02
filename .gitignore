@@ -1,0 +1,15 @@
+node_modules/
+tenet-pay/
+
+# local settings and keys
+local.env
+*.env
+
+# run state: approvals, orders, ledgers, logs
+aa/approvals*.json
+aa/order*.json
+aa/session.json
+demo/mcp-data/
+demo/*.jsonl
+demo/*state.json
+demo/dD-transcript.md

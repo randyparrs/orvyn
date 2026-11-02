@@ -1,0 +1,10 @@
+{
+ "max_per_order_usdc": 5,
+ "max_per_day_usdc": 10,
+ "max_claims_per_week": 3,
+ "claims": {
+  "late": "auto",
+  "not_delivered": "auto",
+  "not_as_described": "ask_owner"
+ }
+}

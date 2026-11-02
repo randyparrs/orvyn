@@ -1,0 +1,25 @@
+name: test
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    name: SDK, MCP server, demo agent and page (offline)
+    runs-on: ubuntu-latest
+    env:
+      TENET_PAY_DIR: ${{ github.workspace }}/tenet-pay
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tenet Pay's checkout code, which the SDK's encoding is compared with
+        uses: actions/checkout@v4
+        with:
+          repository: randyparrs/tenet-pay
+          path: tenet-pay
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: npm ci
+      - run: npm ci
+        working-directory: aa
+      - name: Tests with no keys and no network
+        run: npm test

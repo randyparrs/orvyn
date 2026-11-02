@@ -1,0 +1,13 @@
+{
+  "name": "orvyn-aa",
+  "private": true,
+  "type": "module",
+  "description": "Orvyn's account: an ERC-4337 smart account with a limited session key on Arc testnet (ZeroDev Kernel).",
+  "dependencies": {
+    "@zerodev/ecdsa-validator": "5.4.9",
+    "@zerodev/permissions": "5.6.4",
+    "@zerodev/sdk": "5.5.11",
+    "tslib": "2.9.1",
+    "viem": "2.55.4"
+  }
+}
