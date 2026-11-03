@@ -127,6 +127,12 @@ check(/Could not load the demo data\./.test(readFileSync(DIR + "/app.js", "utf8"
 const icon = readFileSync(DIR + "/favicon.svg", "utf8");
 check(d.querySelector('link[rel="icon"]')?.getAttribute("href") === "favicon.svg" && /^<svg[\s>]/.test(icon) && !/<script|\son\w+=|href=/i.test(icon), "the page has its icon: an O with Tenet's plus, plain SVG");
 
+const status = d.querySelector(".status-note");
+check(/^Dispute path tested on Arc testnet: the store disputed with a fact, the closing round ran and the judge decided DENY \(claim not proven\)\./.test(status.textContent) && !/Not shown on this page yet/.test(body)
+  && status.querySelector('[data-link="status-dispute-transcript"]').getAttribute("href") === "https://github.com/randyparrs/orvyn/blob/main/demo/dD-transcript.md"
+  && status.querySelector('[data-link="status-dispute-verdict"]').getAttribute("href") === "https://scan.bradbury.genlayer.com/tx/0x854c2015c6ee27d03cf1d7bf872b9f7204509ba43bbad610978b694067bec749",
+  "Status: the dispute path tested on Arc testnet, with its transcript and the verdict on GenLayer");
+
 // links and errors
 const href = (k) => d.querySelector(`[data-link="${k}"]`)?.getAttribute("href");
 check(href("github-header") === "https://github.com/randyparrs/orvyn" && href("github-footer") === "https://github.com/randyparrs/orvyn", `links: GitHub (now "${href("github-header")}")`);
