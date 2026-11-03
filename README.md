@@ -129,6 +129,11 @@ through this MCP server, with every signature waiting for the owner's OK:
 
 The full run, message by message, is in [`demo/d6-transcript.md`](demo/d6-transcript.md), and on the page.
 
+On 2026-11-03 the dispute path ran on Arc testnet with a new charger order: the store disputed the claim with a fact, the
+closing round ran (the owner gave a closing proof through Orvyn and the store answered with another fact), and the judge decided
+DENY (claim not proven); the 2.00 USDC went to the store. Before it, the agent declined to pay while the owner's daily limit had
+no room and asked the owner. The run is in [`demo/dD-transcript.md`](demo/dD-transcript.md) and its log in `demo/dD-log.jsonl`.
+
 ## Repository
 
 | Path | What it is |
