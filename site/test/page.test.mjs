@@ -124,6 +124,9 @@ check(d.querySelector('[data-link="hero-how"]').textContent === "How it works" &
 check(data.console.lines.concat(data.demo.steps.flatMap((s) => s.items)).every((x) => !/photos of the label/.test(x.text || "")) && /window to respond\. \.\.\.$/.test(data.demo.steps[3].items.at(-1).text), "the agent's M4 words are cut before the part that is not right");
 check(/Could not load the demo data\./.test(readFileSync(DIR + "/app.js", "utf8")) && !/http\.server/.test(readFileSync(DIR + "/app.js", "utf8")), "no developer text in the error message");
 
+const icon = readFileSync(DIR + "/favicon.svg", "utf8");
+check(d.querySelector('link[rel="icon"]')?.getAttribute("href") === "favicon.svg" && /^<svg[\s>]/.test(icon) && !/<script|\son\w+=|href=/i.test(icon), "the page has its icon: an O with Tenet's plus, plain SVG");
+
 // links and errors
 const href = (k) => d.querySelector(`[data-link="${k}"]`)?.getAttribute("href");
 check(href("github-header") === "https://github.com/randyparrs/orvyn" && href("github-footer") === "https://github.com/randyparrs/orvyn", `links: GitHub (now "${href("github-header")}")`);
