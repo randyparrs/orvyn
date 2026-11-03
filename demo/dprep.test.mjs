@@ -22,6 +22,8 @@ const rows = [], log = (o) => rows.push({ t: new Date().toISOString(), step: "D3
   const d = files("D1"), m = files("M1");
   check(d.log.endsWith("dD-log.jsonl") && d.state.endsWith("dD-state.json") && d.transcript.endsWith("dD-transcript.md") && m.log.endsWith("d6-log.jsonl") && m.state.endsWith("state.json"),
     "test D keeps its own log, state and transcript; day 6's stay as they are");
+  check(MESSAGES.D1b === "The daily limit has reset now. Go ahead: buy the 65 W USB-C charger at TechShopping and pay for it with Orvyn." && files("D1b").log.endsWith("dD-log.jsonl"),
+    "D1b, fixed after D1 ran early, goes to test D's log");
   check(["D1", "D2", "D3", "D4"].every((k) => MESSAGES[k]) && /disputed/.test(MESSAGES.D3) && MESSAGES.M1 && MESSAGES.M5, "messages D1 to D4 are fixed next to day 6's");
   check(transcript(JSON.stringify({ t: "2026-11-03T15:00:00Z", who: "owner", text: "x" }), d.title).startsWith("# Test D:"), "the transcript of test D has its own title");
 }

@@ -32,6 +32,8 @@ export const MESSAGES = {
   M5: "Check both orders. If their refunds are settled, withdraw them.",
   // test D, fixed on 2026-11-02
   D1: "Buy the 65 W USB-C charger at TechShopping and pay for it with Orvyn.",
+  // D1 ran before the daily limit had room; the agent asked instead of paying (kept in the log), and the owner answers:
+  D1b: "The daily limit has reset now. Go ahead: buy the 65 W USB-C charger at TechShopping and pay for it with Orvyn.",
   D2: "The charger arrived today, but its label says Output 20 W, not 65 W. Please handle it.",
   D3: "The store disputed the charger claim. Check the order and send what Orvyn needs from us.",
   D4: "Check the charger order and tell me how it ended. If there is a refund, withdraw it.",
