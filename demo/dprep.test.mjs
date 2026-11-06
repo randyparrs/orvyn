@@ -65,8 +65,9 @@ const rows = [], log = (o) => rows.push({ t: new Date().toISOString(), step: "D3
   const run = (args) => spawnSync(process.execPath, ["owner.mjs", "approve", "0x2A17229184A773CbEb8729034b6016251D858D30", ...args], { cwd: join(ROOT, "aa"), encoding: "utf8" });
   const r3 = run(["--max-per-order", "2", "--orders", "3"]), r0 = run(["--orders", "0"]);
   check(r3.status === 2 && r0.status === 2 && /--orders 1\|2/.test(r3.stderr), "owner.mjs takes --orders 1 or 2 and nothing else");
-  const src = readFileSync(join(ROOT, "aa", "owner.mjs"), "utf8");
-  check(/times: orders/.test(src) && /dayLimits\(now, maxUsdc, orders\)/.test(src), "the number of orders goes into the key's rate limit");
+  const src = readFileSync(join(ROOT, "aa", "owner.mjs"), "utf8"), shared = readFileSync(join(ROOT, "aa", "approval.mjs"), "utf8");
+  check(/times: orders/.test(shared) && /approvalFile\(pub, \{ owner, sessionAddress, now, maxUsdc, orders \}\)/.test(src),
+    "the number of orders goes into the key's rate limit (aa/approval.mjs, shared by owner.mjs and the owner's page)");
 }
 
 // new-key keeps the key before it, unprinted, and prints only the new address

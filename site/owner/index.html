@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orvyn owner: approve the agent's key</title>
+<meta name="description" content="The owner of an agent approves its session key for one day from their own wallet. Nothing is sent; the approval is a signature.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="stylesheet" href="owner.css?v=20261106a">
+<script type="module" src="owner.js?v=20261106a"></script>
+</head>
+<body>
+<main class="owner">
+  <header class="owner-head">
+    <a class="brand" href="../"><span class="brand-name">ORVYN</span><span class="brand-by">BY TENET</span></a>
+    <span class="badge">Testnet</span>
+  </header>
+
+  <h1>Approve your agent's key</h1>
+  <p class="lede">Your agent holds a session key. You approve it for one day, with your limits, by signing in your own wallet. Nothing is sent
+    and nothing costs gas: the approval is a signature that the agent uses with its first payment.</p>
+
+  <section class="card" id="step-wallet">
+    <h2><span class="n">1</span>Connect your wallet</h2>
+    <p>Your wallet opens the agent's account on Arc Testnet. The wallet only gives its address here; it is asked to sign in step 3.</p>
+    <button type="button" class="btn" id="btn-connect" data-action="connect">Connect wallet</button>
+    <dl class="kv">
+      <dt>Your wallet</dt><dd class="mono" id="owner-address"></dd>
+      <dt>Agent's account</dt><dd class="mono" id="agent-account"></dd>
+    </dl>
+  </section>
+
+  <section class="card" id="step-key" hidden>
+    <h2><span class="n">2</span>The key and your limits</h2>
+    <label class="field"><span>Agent's session key address</span>
+      <input class="input mono" id="f-session" type="text" placeholder="0x..." autocomplete="off" spellcheck="false"></label>
+    <div class="row">
+      <label class="field"><span>Limit per order, USDC (up to 5)</span>
+        <input class="input mono" id="f-max" type="number" min="0.01" max="5" step="0.01" value="1"></label>
+      <label class="field"><span>Orders in the day</span>
+        <select class="input" id="f-orders"><option value="1">1</option><option value="2" selected>2</option></select></label>
+    </div>
+    <button type="button" class="btn btn-light" id="btn-review" data-action="review">Review what you sign</button>
+  </section>
+
+  <section class="card" id="step-review" hidden>
+    <h2><span class="n">3</span>What you are about to sign</h2>
+    <ul class="words" id="limits-words"></ul>
+    <p class="note">The money stays in the agent's account <span class="mono" id="review-account"></span> until it pays an order into the escrow.
+      Your wallet will ask for two signatures (payments and claims). It shows them as "Enable" with hashes, not in words: these lines are what they
+      say, built from the same values.</p>
+    <button type="button" class="btn" id="btn-sign" data-action="sign">Sign the approval (2 signatures)</button>
+  </section>
+
+  <section class="card" id="step-done" hidden>
+    <h2><span class="n">4</span>Give the approval to the agent</h2>
+    <p id="done-summary"></p>
+    <p>The file <span class="mono">approvals.json</span> was downloaded. Put it on the agent's machine (in Orvyn, <span class="mono">aa/approvals.json</span>).
+      It holds your limits and your signatures, and no key. <a id="download" href="#">Download it again</a>.</p>
+  </section>
+
+  <p class="error" id="error" role="alert" hidden></p>
+  <p class="foot">Approved for one day on purpose: a new key each day, so unused days never add up. The chain enforces the limit per order,
+    the number of orders, the end date and the gas budget.</p>
+</main>
+</body>
+</html>

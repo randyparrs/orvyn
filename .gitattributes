@@ -1,0 +1,2 @@
+# The built page bundle is compared byte for byte with what its sources build to (site/owner/build.mjs --check)
+site/owner/owner.js -text

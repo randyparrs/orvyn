@@ -9,5 +9,8 @@
     "@zerodev/sdk": "5.5.11",
     "tslib": "2.9.1",
     "viem": "2.55.4"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.2"
   }
 }

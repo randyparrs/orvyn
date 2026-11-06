@@ -16,8 +16,10 @@ The agent never holds it. The owner approves a session key for one day; the agen
 the owner's approval, which holds the limits and the owner's signature and no private key. Run the MCP server under Node's
 permission model (below) so it can read nothing else.
 
-Today the owner's tool (`aa/owner.mjs`) reads the owner's key from a file, for testnet; signing the approval from a wallet or a
-hardware wallet is not built yet.
+The owner approves the key from their own wallet on the owner's page (`site/owner/`): connect a browser wallet (MetaMask, Rabby, or
+a hardware wallet through them), paste the session key's address, read the limits in words, and sign two EIP-712 messages. Nothing is
+sent and nothing costs gas; the page downloads `approvals.json` for the agent's machine. `aa/owner.mjs` builds the same approval
+from a test key in a file, for testnet runs; both use `aa/approval.mjs`, and a test checks they give the same file byte for byte.
 
 ## How it works
 
@@ -152,13 +154,15 @@ no room and asked the owner. The run is in [`demo/dD-transcript.md`](demo/dD-tra
 (`TENET_PAY_DIR`, a checkout of github.com/randyparrs/tenet-pay), the SDK, the MCP server, the demo agent with a scripted model, and
 the page in a simulated DOM.
 
-Others need more: `test/keys.test.mjs` reads Arc testnet; `test/anvil.test.mjs` and `aa/fork.test.mjs` need Foundry's anvil and
+Others need more: `test/keys.test.mjs` reads Arc testnet; `test/owner-page.test.mjs` and `site/test/owner.test.mjs` (add `--built`
+for the bundle) check the owner's page against `aa/owner.mjs`, reading Arc testnet; `node site/owner/build.mjs` builds the page's
+`owner.js` with esbuild (`--check` tells if it is up to date); `test/anvil.test.mjs` and `aa/fork.test.mjs` need Foundry's anvil and
 Tenet's escrow built in tenet-pay's `tenet/` (the fork test copies Arc testnet locally).
 
 ## Not built yet
 
 - Delivery verification: Orvyn does not check whether an order arrived; the owner says so.
-- Signing the owner's approval from a wallet or a hardware wallet.
+- Approving from a phone wallet (WalletConnect).
 - A daily USDC total on chain. Today the chain limits a key to a day, a number of orders and an amount per order (the daily
   limit is their product); a policy of its own that sums USDC per day is future work.
 - Mainnet.
