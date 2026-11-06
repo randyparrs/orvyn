@@ -21,7 +21,9 @@ export const ROOT = fileURLToPath(new URL("..", import.meta.url)).replace(/[\\/]
 const HERE = join(ROOT, "demo"), STORE = "https://techshopping.site";
 /** Each run keeps its own log, state and transcript: the day 6 demo (M1 to M5) and test D (D1 to D4). */
 export const files = (id) => id.startsWith("L")
-  ? { log: join(HERE, "dL-log.jsonl"), state: join(HERE, "dL-state.json"), transcript: join(HERE, "dL-transcript.md"), title: "Test L: an order that arrives late" }
+  // test L runs on a new account (the owner's browser wallet), so its MCP ledger (spends and claims) starts empty
+  ? { log: join(HERE, "dL-log.jsonl"), state: join(HERE, "dL-state.json"), transcript: join(HERE, "dL-transcript.md"), title: "Test L: an order that arrives late",
+      dataDir: join(HERE, "mcp-data-L") }
   : id.startsWith("D")
   ? { log: join(HERE, "dD-log.jsonl"), state: join(HERE, "dD-state.json"), transcript: join(HERE, "dD-transcript.md"), title: "Test D: the store disputes with a fact, and the closing round" }
   : { log: join(HERE, "d6-log.jsonl"), state: join(HERE, "state.json"), transcript: join(HERE, "d6-transcript.md"), title: "Day 6: an agent buys at TechShopping with Orvyn" };
@@ -181,7 +183,7 @@ async function main() {
   const log = (o) => appendFileSync(LOG, JSON.stringify({ t: new Date().toISOString(), step: id, ...o }) + "\n");
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   const ask = (q) => rl.question(q);
-  const dataDir = join(HERE, "mcp-data");
+  const dataDir = files(id).dataDir || join(HERE, "mcp-data");
   mkdirSync(dataDir, { recursive: true });
   const transport = new StdioClientTransport(mcpLaunch({ sessionKeyFile, dataDir }));
   transport.stderr?.on("data", (d) => log({ who: "mcp-stderr", text: String(d).slice(0, 500) }));

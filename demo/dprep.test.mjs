@@ -85,8 +85,8 @@ const rows = [], log = (o) => rows.push({ t: new Date().toISOString(), step: "D3
 
 // test L: its own log, state and transcript; the owner's messages fixed before the run
 check(["L1", "L2", "L3"].every((k) => MESSAGES[k]) && /earbuds/.test(MESSAGES.L1) && /estimated delivery date/.test(MESSAGES.L2) && /withdraw/.test(MESSAGES.L3)
-  && files("L1").log.endsWith("dL-log.jsonl") && files("L2").state.endsWith("dL-state.json") && files("D1").log.endsWith("dD-log.jsonl") && files("M1").log.endsWith("d6-log.jsonl"),
-  "test L: messages L1 to L3 fixed, with their own log, state and transcript; D and the day 6 run keep theirs");
+  && files("L1").log.endsWith("dL-log.jsonl") && files("L2").state.endsWith("dL-state.json") && files("L3").dataDir.endsWith("mcp-data-L") && !files("D1").dataDir && files("D1").log.endsWith("dD-log.jsonl") && files("M1").log.endsWith("d6-log.jsonl"),
+  "test L: messages L1 to L3 fixed, with their own log, state, transcript and MCP ledger (a new account); D and the day 6 run keep theirs");
 
 console.log(failed ? `DPREP FAIL (${failed})` : "d prep: pass");
 process.exit(failed ? 1 : 0);
