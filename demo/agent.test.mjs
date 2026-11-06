@@ -185,8 +185,8 @@ const messages = [{ role: "system", content: SYSTEM("2026-11-02") }];
   try {
     await c.connect(t);
     const r = JSON.parse((await c.callTool({ name: "rules", arguments: {} })).content[0].text);
-    check(r.wallet === "0x00000000000000000000000000000000000d6d6d" && r.max_per_order_usdc === 2 && r.max_per_day_usdc === 3 && r.claims.not_as_described === "ask_owner" && r.claims.late === "never",
-      "the server starts as launched, with d6/rules.json: 2.00 per order, 3.00 a day, ask the owner for not as described");
+    check(r.wallet === "0x00000000000000000000000000000000000d6d6d" && r.max_per_order_usdc === 3 && r.max_per_day_usdc === 3 && r.claims.not_as_described === "ask_owner" && r.claims.late === "auto",
+      "the server starts as launched, with demo/rules.json: 3.00 per order, 3.00 a day, late claims alone, ask the owner for not as described");
   } catch (e) {
     check(false, "launch: " + e.message + " | " + err.slice(0, 400));
   } finally {

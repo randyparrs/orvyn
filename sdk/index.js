@@ -162,8 +162,11 @@ export function createOrvyn({ net = TESTNET, signer, rules, ledger, saveLedger =
       mine(v);
       const action = v.next?.action;
       if (action === "submit") {
+        const calls = v.next.submissions.map((s) => ({ to: net.escrow, data: submitData(v.ref, s) }));
+        // a smart account registers them all in one UserOp; a plain wallet signs each
+        if (signer.sendBatch && calls.length > 1) return { order: v.order, registered_emails: calls.length, transactions: [await mined(await signer.sendBatch(calls))] };
         const txs = [];
-        for (const s of v.next.submissions) txs.push(await send(net.escrow, submitData(v.ref, s)));
+        for (const c of calls) txs.push(await send(c.to, c.data));
         return { order: v.order, registered_emails: txs.length, transactions: txs };
       }
       if (action === "proof" || action === "closing") {

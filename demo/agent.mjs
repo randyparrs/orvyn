@@ -3,6 +3,7 @@
 // the MCP's question to the owner (elicitation) is answered here too. All that is said and done goes to a log (files()).
 //   node demo/agent.mjs M1 ... M5     the day 6 run: sends that owner's message and lets the agent act until it answers
 //   node demo/agent.mjs D1 ... D4     test D: the store disputes a claim with a fact, and the closing round
+//   node demo/agent.mjs L1 ... L3     test L: an order that arrives late, claimed with the store's own emails verified on Lacre
 // OPENROUTER_API_KEY comes from the environment; it is never printed, stored or passed to the MCP server. The MCP server runs under
 // Node's permission model with the session key and the owner's approval only.
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -19,7 +20,9 @@ export const MODEL = "anthropic/claude-haiku-5.5";
 export const ROOT = fileURLToPath(new URL("..", import.meta.url)).replace(/[\\/]$/, "");
 const HERE = join(ROOT, "demo"), STORE = "https://techshopping.site";
 /** Each run keeps its own log, state and transcript: the day 6 demo (M1 to M5) and test D (D1 to D4). */
-export const files = (id) => id.startsWith("D")
+export const files = (id) => id.startsWith("L")
+  ? { log: join(HERE, "dL-log.jsonl"), state: join(HERE, "dL-state.json"), transcript: join(HERE, "dL-transcript.md"), title: "Test L: an order that arrives late" }
+  : id.startsWith("D")
   ? { log: join(HERE, "dD-log.jsonl"), state: join(HERE, "dD-state.json"), transcript: join(HERE, "dD-transcript.md"), title: "Test D: the store disputes with a fact, and the closing round" }
   : { log: join(HERE, "d6-log.jsonl"), state: join(HERE, "state.json"), transcript: join(HERE, "d6-transcript.md"), title: "Day 6: an agent buys at TechShopping with Orvyn" };
 
@@ -37,6 +40,10 @@ export const MESSAGES = {
   D2: "The charger arrived today, but its label says Output 20 W, not 65 W. Please handle it.",
   D3: "The store disputed the charger claim. Check the order and send what Orvyn needs from us.",
   D4: "Check the charger order and tell me how it ended. If there is a refund, withdraw it.",
+  // test L, fixed on 2026-11-06
+  L1: "Buy the wireless earbuds at TechShopping and pay for them with Orvyn.",
+  L2: "The earbuds arrived today, a day after the estimated delivery date in the store's emails. Please handle it.",
+  L3: "Check the earbuds order and tell me how it ended. If there is a refund, withdraw it.",
 };
 
 export const SYSTEM = (date) => [
@@ -154,9 +161,9 @@ export const ownerAnswers = (ask, log) => async ({ message, requestedSchema }) =
 
 const EXPECT = {
   pay_link: "Pays into the escrow: approve and pay in one UserOp; the first time it also installs the pay permission. Expected: the order paid, the buyer is the owner's account.",
-  open_claim: "Opens the claim; the first time it also installs the claims permission. Expected: the claim open and the store's 5 minute window.",
+  open_claim: "Opens the claim; the first time it also installs the claims permission. Expected: the claim open on the escrow (for not_delivered and not_as_described, the store's 5 minute window).",
   withdraw: "Withdraws the refunds from the escrow to the account. Expected: claimable to 0 and the account up by the same.",
-  submit_evidence: "Sends what the order waits for from the buyer, such as the owner's closing proof (the MCP asks the owner).",
+  submit_evidence: "Sends what the order waits for from the buyer: the store's emails verified on Lacre for a late claim, in one UserOp, or the owner's proof (the MCP asks the owner).",
 };
 
 async function main() {

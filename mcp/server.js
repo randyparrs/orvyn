@@ -54,7 +54,7 @@ export function buildServer(makeOrvyn, { ownerWaitMs = OWNER_WAIT_MS } = {}) {
   tool("order_status", "An order's state: paid, store emails, claim, the judge's steps, the settlement and what comes next.",
     { order }, ({ order: n }) => orvyn.orderStatus(n), { readOnlyHint: true, title: "Order status" });
   tool("open_claim", "Open a claim on an order this wallet paid. An order takes one claim and it cannot be changed. For not_as_described the proof comes from the owner, who is asked; do not invent it.",
-    { order, event: z.enum(["late", "not_delivered", "not_as_described"]), account: z.string().max(500).describe("What happened, in plain facts"),
+    { order, event: z.enum(["late", "not_delivered", "not_as_described"]), account: z.string().max(500).optional().describe("What happened, in plain facts. Not used for late: a late claim is the store's own emails"),
       promised: z.string().max(200).optional().describe("not_as_described: what the description promised, quoted"),
       received: z.string().max(200).optional().describe("not_as_described: what arrived"),
       delivered_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe("not_as_described: the delivery date, YYYY-MM-DD") },

@@ -131,6 +131,17 @@ const refused = async (fn, re) => { try { await fn(); return false; } catch (e) 
   check(r.registered_emails === 2 && w.sent.every((t) => t.data.startsWith("0x" + SEL.submit)) && bytesOf(w.sent[1].data) === "{\"b\":2}", "evidence: the submissions Tenet lists, one signature each");
 }
 {
+  // a smart account (sendBatch): the same submissions in one UserOp
+  const batches = [];
+  const w = world({ patchOrder: (o) => ({ ...o, next: { action: "submit", submissions: ["{\"a\":1}", "{\"b\":2}", "{\"c\":3}"] } }) });
+  const e = createOrvyn({ net: w.net, rules: parseRules(RULES), fetchImpl: w.fetchImpl, now: () => 1793400000, pollMs: 1,
+    signer: { address: BUYER, sendTransaction: async () => { throw new Error("not one by one"); }, sendBatch: async (c) => { batches.push(c); return "0x" + "1".repeat(64); } } });
+  const r = await e.submitEvidence("TS-171823");
+  check(r.registered_emails === 3 && r.transactions.length === 1 && batches.length === 1 && batches[0].length === 3
+    && batches[0].every((c) => c.data.startsWith("0x" + SEL.submit)) && bytesOf(batches[0][2].data) === "{\"c\":3}",
+    "evidence with a smart account: the 3 store emails in one UserOp, in the order Tenet lists them");
+}
+{
   const w = world({ patchOrder: (o) => ({ ...o, next: { action: "proof" } }), ask: async () => ({ approved: true, proof: { kind: "model_number", text: "TS-C20" } }) });
   await w.orvyn.submitEvidence("TS-171823");
   const s = JSON.parse(bytesOf(w.sent[0].data));

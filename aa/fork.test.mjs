@@ -143,6 +143,11 @@ try {
   const open = { to: escrow, value: 0n, data: encodeFunctionData({ abi: art.abi, functionName: "openClaim", args: [ref(4), toHex(toBytes(claim))] }) };
   x = await userOp(asClaims, [open]);
   check(x.result === "ok", `claims permission: openClaim accepted from the account as buyer (${x.result}${x.why ? ": " + x.why : ""})`);
+  // a late claim's store emails: three submits in one UserOp, as submit_evidence sends them from a smart account
+  const sub = (id) => ({ to: escrow, value: 0n, data: encodeFunctionData({ abi: art.abi, functionName: "submit",
+    args: [ref(4), toHex(toBytes(JSON.stringify({ content: { body_b64: "", record_id: id }, kind: "evidence", party: "buyer" })))] }) });
+  x = await userOp(asClaims, [sub("0"), sub("1"), sub("2")]);
+  check(x.result === "ok", `claims permission: three submits in one UserOp (${x.result}${x.why ? ": " + x.why : ""})`);
 
   // how the daily limit behaves after idle days: measured, because the rate limit counts windows from the issue date
   await rpc("evm_increaseTime", [3 * 86400]); await rpc("evm_mine", []);

@@ -1,9 +1,9 @@
 {
- "max_per_order_usdc": 2,
+ "max_per_order_usdc": 3,
  "max_per_day_usdc": 3,
  "max_claims_per_week": 3,
  "claims": {
-  "late": "never",
+  "late": "auto",
   "not_delivered": "auto",
   "not_as_described": "ask_owner"
  }

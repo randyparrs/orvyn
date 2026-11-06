@@ -57,7 +57,7 @@ const rows = [], log = (o) => rows.push({ t: new Date().toISOString(), step: "D3
 // the owner's rules for test D: 3 claims a week (raised from 2 for it); the daily limit stays at 3.00
 {
   const r = JSON.parse(readFileSync(join(ROOT, "demo", "rules.json"), "utf8"));
-  check(r.max_claims_per_week === 3 && r.max_per_day_usdc === 3 && r.max_per_order_usdc === 2 && r.claims.not_as_described === "ask_owner", "rules: 3 claims a week, 3.00 a day, 2.00 per order");
+  check(r.max_claims_per_week === 3 && r.max_per_day_usdc === 3 && r.max_per_order_usdc === 3 && r.claims.not_as_described === "ask_owner", "rules: 3 claims a week, 3.00 a day, 3.00 per order");
 }
 
 // the owner's tool refuses a wrong --orders before reading any key or the network
@@ -82,6 +82,11 @@ const rows = [], log = (o) => rows.push({ t: new Date().toISOString(), step: "D3
   check(kept.length === 1 && readFileSync(join(dir, kept[0]), "utf8") === k1 && readFileSync(f, "utf8") !== k1 && existsSync(f), "new-key keeps the key before it under a dated name and writes a new one");
   check(!one.includes(hex(k1)) && !two.includes(hex(k1)) && !two.includes(hex(readFileSync(f, "utf8"))) && /session_key_address/.test(two), "new-key prints the new address and no key");
 }
+
+// test L: its own log, state and transcript; the owner's messages fixed before the run
+check(["L1", "L2", "L3"].every((k) => MESSAGES[k]) && /earbuds/.test(MESSAGES.L1) && /estimated delivery date/.test(MESSAGES.L2) && /withdraw/.test(MESSAGES.L3)
+  && files("L1").log.endsWith("dL-log.jsonl") && files("L2").state.endsWith("dL-state.json") && files("D1").log.endsWith("dD-log.jsonl") && files("M1").log.endsWith("d6-log.jsonl"),
+  "test L: messages L1 to L3 fixed, with their own log, state and transcript; D and the day 6 run keep theirs");
 
 console.log(failed ? `DPREP FAIL (${failed})` : "d prep: pass");
 process.exit(failed ? 1 : 0);

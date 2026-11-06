@@ -36,6 +36,8 @@ const body = (r) => JSON.parse(r.content[0].text);
   check(names.join() === "open_claim,order_status,pay_link,rules,submit_evidence,withdraw", "six tools: pay_link, order_status, open_claim, submit_evidence, withdraw, rules");
   const claim = tools.find((t) => t.name === "open_claim");
   check(!Object.keys(claim.inputSchema.properties).some((k) => /proof/i.test(k)) && claim.inputSchema.properties.account.maxLength === 500, "open_claim takes no proof as an argument; account up to 500 characters");
+  check(!(claim.inputSchema.required || []).includes("account") && (claim.inputSchema.required || []).includes("event"),
+    "open_claim: account is optional (a late claim is the store's emails and carries no text); the SDK still asks for it on the other types");
   check(tools.find((t) => t.name === "order_status").annotations.readOnlyHint === true && tools.find((t) => t.name === "pay_link").annotations.destructiveHint === true, "tools marked read only or as spending");
   const r = await c.callTool({ name: "pay_link", arguments: { link: "https://paytenet.site/#pay/TS-476930" } });
   check(!r.isError && body(r).paid === true && w.sent.length === 2, "pay_link through the protocol");
