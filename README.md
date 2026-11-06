@@ -159,7 +159,8 @@ Tenet's escrow built in tenet-pay's `tenet/` (the fork test copies Arc testnet l
 
 - Delivery verification: Orvyn does not check whether an order arrived; the owner says so.
 - Signing the owner's approval from a wallet or a hardware wallet.
-- A daily USDC total on chain.
+- A daily USDC total on chain. Today the chain limits a key to a day, a number of orders and an amount per order (the daily
+  limit is their product); a policy of its own that sums USDC per day is future work.
 - Mainnet.
 
 ## License
