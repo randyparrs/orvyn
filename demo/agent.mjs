@@ -46,6 +46,8 @@ export const MESSAGES = {
   L1: "Buy the wireless earbuds at TechShopping and pay for them with Orvyn.",
   L2: "The earbuds arrived today, a day after the estimated delivery date in the store's emails. Please handle it.",
   L3: "Check the earbuds order and tell me how it ended. If there is a refund, withdraw it.",
+  // L3 ran before the judge decided (it registered the store's emails); the owner asks again once the refund is settled:
+  L4: "The earbuds claim should be settled now. Check the order and, if the refund is settled, withdraw it.",
 };
 
 export const SYSTEM = (date) => [
