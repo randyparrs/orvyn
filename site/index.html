@@ -372,6 +372,14 @@
       <span class="cap">A note on this run</span>
       <span class="run-note-text" data-bind="demo.incident"></span>
     </div>
+
+    <div class="run-note" data-reveal="head" data-note="late-run">
+      <span class="cap">Another run: an order that arrived late</span>
+      <span class="run-note-text">Test L, 2026-11-06 and 07: the agent bought the earbuds (3.00 USDC) on a new account whose owner approved the key from a
+        browser wallet. The delivery email came a day after the estimated date; the agent opened a late claim without asking the owner and
+        registered the store's three emails in one transaction. The judge decided REFUND 1.50 USDC per policy, and the agent's account got it back.
+        <a href="https://github.com/randyparrs/orvyn/blob/main/demo/dL-transcript.md" data-link="demo-late-transcript">Transcript</a>.</span>
+    </div>
   </div>
 </section>
 
@@ -391,11 +399,13 @@
         <div class="nb">
           <span class="cap">Not built yet</span>
           <div class="nb-item"><span class="nb-ring" aria-hidden="true"></span><div class="nb-text"><span class="nb-title">delivery verification</span><span class="nb-detail">Orvyn does not check whether an order arrived; the owner says so. A <code class="code-inline">late</code> claim needs a delivery email verified by Lacre, which is not live on this network yet.</span></div></div>
-          <div class="nb-item"><span class="nb-ring" aria-hidden="true"></span><div class="nb-text"><span class="nb-title">signing the owner's approval from a wallet or a hardware wallet</span></div></div>
+          <div class="nb-item"><span class="nb-ring" aria-hidden="true"></span><div class="nb-text"><span class="nb-title">approving from a phone wallet</span><span class="nb-detail">WalletConnect. Browser wallets work today, on the owner's page.</span></div></div>
           <div class="nb-item"><span class="nb-ring" aria-hidden="true"></span><div class="nb-text"><span class="nb-title">a daily USDC total on chain</span><span class="nb-detail">On chain today: the limit per order, the number of orders, the end date and the gas budget.</span></div></div>
           <div class="nb-item"><span class="nb-ring" aria-hidden="true"></span><div class="nb-text"><span class="nb-title">mainnet</span></div></div>
         </div>
         <p class="status-note">Dispute path tested on Arc testnet: the store disputed with a fact, the closing round ran and the judge decided DENY (claim not proven). See <a href="https://github.com/randyparrs/orvyn/blob/main/demo/dD-transcript.md" data-link="status-dispute-transcript">the transcript</a> and <a href="https://scan.bradbury.genlayer.com/tx/0x854c2015c6ee27d03cf1d7bf872b9f7204509ba43bbad610978b694067bec749" data-link="status-dispute-verdict">the verdict</a>.</p>
+        <p class="status-note" data-note="late">Late path tested on Arc testnet and GenLayer Bradbury Phase 2: the agent opened a late claim on its own, registered the store's three emails verified on Lacre in one transaction, and the judge decided REFUND 1.50 USDC (50%, per policy). See <a href="https://github.com/randyparrs/orvyn/blob/main/demo/dL-transcript.md" data-link="status-late-transcript">the transcript</a> and <a href="https://scan.bradbury.genlayer.com/tx/0xe7fd9a6dedb3ec5adff2083135fe40dc2e0e1d7ee9278b2e567540b1f764747c" data-link="status-late-verdict">the verdict</a>.</p>
+        <p class="status-note" data-note="owner">The owner approves the agent's key for the day from a browser wallet, with the limits in words before signing: <a href="owner/" data-link="status-owner-page">the owner's page</a>.</p>
       </div>
     </div>
   </div>

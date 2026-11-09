@@ -136,6 +136,12 @@ closing round ran (the owner gave a closing proof through Orvyn and the store an
 DENY (claim not proven); the 2.00 USDC went to the store. Before it, the agent declined to pay while the owner's daily limit had
 no room and asked the owner. The run is in [`demo/dD-transcript.md`](demo/dD-transcript.md) and its log in `demo/dD-log.jsonl`.
 
+On 2026-11-06 and 07 the late path ran (test L) on a new account, whose owner approved the key from a browser wallet on the owner's
+page: the agent bought the earbuds (3.00 USDC); the store's delivery email came a day after the estimated date; the agent opened a
+late claim without asking the owner and registered the store's three emails, verified on Lacre, in one UserOp; the judge decided
+REFUND 1.50 USDC (50%, per policy) and the refund was withdrawn to the account. The run is in
+[`demo/dL-transcript.md`](demo/dL-transcript.md) and its log in `demo/dL-log.jsonl`.
+
 ## Repository
 
 | Path | What it is |

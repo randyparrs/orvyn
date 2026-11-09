@@ -35,8 +35,8 @@ await tick(); await tick();
 const { d, w } = P;
 
 // data rendered
-check(d.querySelectorAll(".tool-card").length === 6 && d.querySelectorAll(".order-card").length === 2 && d.querySelectorAll(".total").length === 3 && d.querySelectorAll(".net-row").length === 5,
-  "renders 6 tools, 2 orders, 3 totals, 5 network rows");
+check(d.querySelectorAll(".tool-card").length === 6 && d.querySelectorAll(".order-card").length === 2 && d.querySelectorAll(".total").length === 3 && d.querySelectorAll(".net-row").length === 7,
+  "renders 6 tools, 2 orders, 3 totals, 7 network rows (both judges and the Lacre Router)");
 check(d.querySelector('[data-render="mcp-config"]').textContent === JSON.stringify(data.mcp.clientConfig, null, 2), "the MCP config block shows data.json's config");
 
 // console replay
@@ -132,6 +132,17 @@ check(/^Dispute path tested on Arc testnet: the store disputed with a fact, the 
   && status.querySelector('[data-link="status-dispute-transcript"]').getAttribute("href") === "https://github.com/randyparrs/orvyn/blob/main/demo/dD-transcript.md"
   && status.querySelector('[data-link="status-dispute-verdict"]').getAttribute("href") === "https://scan.bradbury.genlayer.com/tx/0x854c2015c6ee27d03cf1d7bf872b9f7204509ba43bbad610978b694067bec749",
   "Status: the dispute path tested on Arc testnet, with its transcript and the verdict on GenLayer");
+const lateNote = d.querySelector('[data-note="late"]'), ownerNote = d.querySelector('[data-note="owner"]'), lateRun = d.querySelector('[data-note="late-run"]');
+check(/^Late path tested on Arc testnet and GenLayer Bradbury Phase 2: .*REFUND 1\.50 USDC \(50%, per policy\)\./.test(lateNote.textContent)
+  && lateNote.querySelector('[data-link="status-late-transcript"]').getAttribute("href") === "https://github.com/randyparrs/orvyn/blob/main/demo/dL-transcript.md"
+  && lateNote.querySelector('[data-link="status-late-verdict"]').getAttribute("href") === "https://scan.bradbury.genlayer.com/tx/0xe7fd9a6dedb3ec5adff2083135fe40dc2e0e1d7ee9278b2e567540b1f764747c",
+  "Status: the late path tested (test L), with its transcript and the verdict on GenLayer");
+check(ownerNote.querySelector('[data-link="status-owner-page"]').getAttribute("href") === "owner/" && /browser wallet/.test(ownerNote.textContent)
+  && !/signing the owner's approval from a wallet/.test(body) && /approving from a phone wallet/.test(body),
+  "Status: the owner's page is linked; signing from a wallet is no longer listed as not built, a phone wallet is");
+check(/Another run: an order that arrived late/.test(lateRun.textContent) && /REFUND 1\.50 USDC per policy/.test(lateRun.textContent)
+  && lateRun.querySelector('[data-link="demo-late-transcript"]').getAttribute("href") === "https://github.com/randyparrs/orvyn/blob/main/demo/dL-transcript.md",
+  "Demo: test L, the late run, with its transcript");
 
 // links and errors
 const href = (k) => d.querySelector(`[data-link="${k}"]`)?.getAttribute("href");

@@ -847,9 +847,19 @@
       "mono": "0x17FBCDF5c1780DfE29dcE5aFf2E3D3921d393798"
     },
     {
-      "label": "Judge",
+      "label": "Judge, not delivered and not as described",
       "text": "GenLayer Bradbury",
       "mono": "0xAe753BaE3c7525b90BdA8D177eE71A547F17d17a"
+    },
+    {
+      "label": "Judge, arrived late",
+      "text": "GenLayer Bradbury Phase 2",
+      "mono": "0x0617C48b4Eb2AeA1862A6cb09FB175b71Ad6DE19"
+    },
+    {
+      "label": "Lacre Router",
+      "text": "store emails, Bradbury Phase 2",
+      "mono": "0xE7916BaFe7Aa624347Bf19e58AF0623F5182d74C"
     },
     {
       "label": "Explorers",
