@@ -23,3 +23,5 @@ jobs:
         working-directory: aa
       - name: Tests with no keys and no network
         run: npm test
+      - name: The owner's page bundle is what its sources build to
+        run: node site/owner/build.mjs --check
