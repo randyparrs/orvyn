@@ -83,9 +83,10 @@ const refused = async (fn, re) => { try { await fn(); return false; } catch (e) 
 }
 {
   const w = world({ patchOrder: (o) => ({ ...o, mails: [{ state: "attested", dates: { delivered: true } }] }) });
-  await w.orvyn.openClaim("TS-171823", "late", { account: "ignored" });
+  const lateNext = (await w.orvyn.openClaim("TS-171823", "late", { account: "ignored" })).next;
   const c = JSON.parse(bytesOf(w.sent[0].data));
   check(c.event === "late" && !("account" in c), "claim: late carries only the base, as My orders");
+  check(/submit_evidence now/.test(lateNext) && !/window/.test(lateNext), "claim: after a late claim the agent is told to register the store's emails now, not to wait for the store");
 }
 {
   const w = world({ ask: async () => null });

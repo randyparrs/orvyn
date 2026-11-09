@@ -153,7 +153,10 @@ export function createOrvyn({ net = TESTNET, signer, rules, ledger, saveLedger =
       const tx = await send(net.escrow, claimData(v.ref, c));
       led.claims.push({ at: t, order: v.order, event });
       await saveLedger(led);
-      return { order: v.order, claim: event, tx, next: "the store has its window to answer; follow the order with order_status" };
+      // a late claim is judged on the store's own emails, which the buyer registers next; the other types wait for the store first
+      const next = event === "late" ? "register the store's emails verified on Lacre with submit_evidence now; then the judge decides"
+        : "the store has its window to answer; follow the order with order_status";
+      return { order: v.order, claim: event, tx, next };
     },
 
     /** What the escrow is waiting from the buyer: the store emails the Worker lists, or the owner's proof. */
