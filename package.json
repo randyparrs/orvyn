@@ -17,6 +17,6 @@
   "license": "MIT",
   "repository": "github:randyparrs/orvyn",
   "scripts": {
-    "test": "node test/encode.test.mjs && node test/sdk.test.mjs && node test/mcp.test.mjs && node demo/agent.test.mjs && node demo/dprep.test.mjs && node site/test/page.test.mjs"
+    "test": "node test/encode.test.mjs && node test/sdk.test.mjs && node test/ledger.test.mjs && node test/mcp.test.mjs && node demo/agent.test.mjs && node demo/dprep.test.mjs && node site/test/page.test.mjs"
   }
 }

@@ -4,7 +4,8 @@
 //   ORVYN_RULES   the owner's rules (JSON, see rules.example.json). Without it the server does not start.
 //   ORVYN_SIGNER  a module of the owner that exports { address, sendTransaction({ to, data }) }. Orvyn imports it and calls it;
 //                  this server never reads, asks for or stores a key.
-//   ORVYN_LEDGER  where the spend and claim counts are kept (no keys, no personal data). Default orvyn-ledger.json.
+//   ORVYN_LEDGER  where the spend and claim counts are kept, one ledger per agent wallet (sdk/ledger.js; no keys, no personal data).
+//                 Default orvyn-ledger.json.
 //
 // A proof for "not as described" comes from the owner through MCP elicitation. No tool takes a proof as an argument, so the agent
 // cannot write one. If the client cannot ask the owner, the claim is not opened.
@@ -15,6 +16,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { createOrvyn, Refused, TESTNET } from "../sdk/index.js";
 import { parseRules } from "../sdk/rules.js";
+import { readBook, walletLedger } from "../sdk/ledger.js";
 
 /** The owner has 10 minutes to answer; after that nothing is signed and the call says it waits for the owner. */
 export const OWNER_WAIT_MS = 600_000;
@@ -71,8 +73,10 @@ async function main() {
   const rules = parseRules(JSON.parse(readFileSync(need("ORVYN_RULES"), "utf8")));
   const signer = (await import(pathToFileURL(need("ORVYN_SIGNER")).href)).default;
   const path = process.env.ORVYN_LEDGER || "orvyn-ledger.json";
-  const ledger = existsSync(path) ? JSON.parse(readFileSync(path, "utf8")) : { spends: [], claims: [] };
-  const server = buildServer((askOwner) => createOrvyn({ net: TESTNET, signer, rules, ledger, askOwner, saveLedger: async (l) => writeFileSync(path, JSON.stringify(l, null, 1) + "\n") }));
+  // the counts of this signer's wallet only: another account in the same file never adds to its limits
+  const book = readBook(existsSync(path) ? JSON.parse(readFileSync(path, "utf8")) : null);
+  const ledger = walletLedger(book, signer.address);
+  const server = buildServer((askOwner) => createOrvyn({ net: TESTNET, signer, rules, ledger, askOwner, saveLedger: async () => writeFileSync(path, JSON.stringify(book, null, 1) + "\n") }));
   await server.connect(new StdioServerTransport());
 }
 

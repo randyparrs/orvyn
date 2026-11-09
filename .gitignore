@@ -10,6 +10,5 @@ aa/approvals*.json
 aa/order*.json
 aa/session.json
 demo/mcp-data/
-demo/mcp-data-L/
 demo/d6-log.jsonl
 demo/*state.json

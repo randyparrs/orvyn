@@ -75,7 +75,7 @@ Paths are placeholders. Node 24 takes one `--allow-fs-read` per path. Install fi
 | `ORVYN_SIGNER` | The signer module; `aa/mcp-signer.mjs` signs with the session key and the owner's approval |
 | `ORVYN_SESSION_KEY_FILE` | The agent's session key |
 | `ORVYN_APPROVALS` | The owner's approval of that key (no private key in it) |
-| `ORVYN_LEDGER` | Spend and claim counts (no keys, no personal data) |
+| `ORVYN_LEDGER` | Spend and claim counts, one ledger per agent wallet in the same file (no keys, no personal data) |
 | `ORVYN_RPC` | Optional; Arc testnet by default |
 
 ## The six tools

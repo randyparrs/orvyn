@@ -174,7 +174,12 @@ const messages = [{ role: "system", content: SYSTEM("2026-11-02") }];
   const dir = mkdtempSync(join(tmpdir(), "orvyn-d6-")), keyFile = join(dir, "orvyn-session.env"), ownerFile = join(dir, "orvyn-owner.env");
   writeFileSync(keyFile, "SESSION_KEY=0x" + "11".repeat(32) + "\n");
   writeFileSync(ownerFile, "OWNER_KEY=0x" + "22".repeat(32) + "\n");
-  const launch = mcpLaunch({ sessionKeyFile: keyFile, signer: join(ROOT, "demo", "test-signer.mjs"), dataDir: mkdtempSync(join(tmpdir(), "orvyn-d6-data-")), extraArgs: ["--import", pathToFileURL(join(ROOT, "test", "probe-owner.mjs")).href] });
+  // the ledger file already holds another account's 3 claims and 1 of this wallet's: the server counts only its own wallet
+  const dataDir = mkdtempSync(join(tmpdir(), "orvyn-d6-data-")), at = Math.floor(Date.now() / 1000) - 3600;
+  writeFileSync(join(dataDir, "ledger.json"), JSON.stringify({ version: 2, wallets: {
+    "0xe15cb50505878ecf42772d38eb022c00509ef02b": { spends: [], claims: [1, 2, 3].map((i) => ({ at, order: "TS-" + i, event: "not_delivered" })) },
+    "0x00000000000000000000000000000000000d6d6d": { spends: [], claims: [{ at, order: "TS-4", event: "late" }] } } }));
+  const launch = mcpLaunch({ sessionKeyFile: keyFile, signer: join(ROOT, "demo", "test-signer.mjs"), dataDir, extraArgs: ["--import", pathToFileURL(join(ROOT, "test", "probe-owner.mjs")).href] });
   check(!JSON.stringify(launch.env).includes(KEY) && !("OPENROUTER_API_KEY" in launch.env), "the MCP server's environment has no OpenRouter key");
   check(launch.args.includes("--permission") && !launch.args.some((x) => x.includes("orvyn-owner")), "launched with --permission and no path to the owner's key");
   launch.env.ORVYN_PROBE_FILE = ownerFile;
@@ -187,6 +192,7 @@ const messages = [{ role: "system", content: SYSTEM("2026-11-02") }];
     const r = JSON.parse((await c.callTool({ name: "rules", arguments: {} })).content[0].text);
     check(r.wallet === "0x00000000000000000000000000000000000d6d6d" && r.max_per_order_usdc === 3 && r.max_per_day_usdc === 3 && r.claims.not_as_described === "ask_owner" && r.claims.late === "auto",
       "the server starts as launched, with demo/rules.json: 3.00 per order, 3.00 a day, late claims alone, ask the owner for not as described");
+    check(r.claims_this_week === 1 && r.max_claims_per_week === 3, "the server's weekly count is its wallet's own (1), not the other account's 3 in the same file");
   } catch (e) {
     check(false, "launch: " + e.message + " | " + err.slice(0, 400));
   } finally {
