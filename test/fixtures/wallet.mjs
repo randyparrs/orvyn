@@ -3,11 +3,17 @@
 import { privateKeyToAccount } from "viem/accounts";
 
 const RPC = "https://rpc.testnet.arc.io";
+// the network as it was when this module loaded: a test may stub fetch to block the page's public RPC, never the wallet's own
+const realFetch = globalThis.fetch;
 
 export function testWallet(key) {
   const acct = privateKeyToAccount(key), asked = [];
-  const rpc = async (method, params) => (await (await fetch(RPC, { method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) })).json()).result;
+  // as a wallet's provider does: the result, or the node's error with its code and data (a revert keeps its data)
+  const rpc = async (method, params) => {
+    const j = await (await realFetch(RPC, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) })).json();
+    if (j.error) throw Object.assign(new Error(j.error.message), { code: j.error.code, data: j.error.data });
+    return j.result;
+  };
   return { asked, address: acct.address, async request({ method, params }) {
     asked.push(method);
     if (method === "eth_requestAccounts" || method === "eth_accounts") return [acct.address];

@@ -1,0 +1,29 @@
+{
+ "items": [
+  {
+   "timestamp": "2026-11-07T15:23:21.000000Z",
+   "fee": "5294958075000000",
+   "transaction_hash": "0xca5caad7fa23f9080224c1ec8fa553aecfb694c87b3c1ee2972770f25eb9516d",
+   "status": true
+  },
+  {
+   "timestamp": "2026-11-07T15:01:32.000000Z",
+   "fee": "8474187295000000",
+   "transaction_hash": "0xcf9c79aaf73204b6c54bdeedf7bd23640ecb970e3ded7e15d5c8af1949083551",
+   "status": true
+  },
+  {
+   "timestamp": "2026-11-07T14:47:30.000000Z",
+   "fee": "37639089250000000",
+   "transaction_hash": "0x7a667f75dde358aec5c015e45773bc079273f48e7c3493a94f10106a26718b30",
+   "status": true
+  },
+  {
+   "timestamp": "2026-11-06T21:10:34.000000Z",
+   "fee": "46940128750000000",
+   "transaction_hash": "0x6604f4e69bac1c1cfeb780b56c51cf3c969f1f999282e39e2f00cbb5cd35cfe4",
+   "status": true
+  }
+ ],
+ "next_page_params": null
+}

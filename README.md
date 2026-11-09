@@ -16,10 +16,14 @@ The agent never holds it. The owner approves a session key for one day; the agen
 the owner's approval, which holds the limits and the owner's signature and no private key. Run the MCP server under Node's
 permission model (below) so it can read nothing else.
 
-The owner approves the key from their own wallet on the owner's page (`site/owner/`): connect a browser wallet (MetaMask, Rabby, or
-a hardware wallet through them), paste the session key's address, read the limits in words, and sign two EIP-712 messages. Nothing is
-sent and nothing costs gas; the page downloads `approvals.json` for the agent's machine. `aa/owner.mjs` builds the same approval
-from a test key in a file, for testnet runs; both use `aa/approval.mjs`, and a test checks they give the same file byte for byte.
+The owner panel ([orvyn.paytenet.site/owner/](https://orvyn.paytenet.site/owner/), `site/owner/`) shows the agent's account, its
+limits, what it spent, its claims and the refunds waiting, read from public sources only (Tenet Pay's gateway, Arc testnet and its
+explorer), and approves the day's key from the owner's own wallet: connect a browser wallet (MetaMask, Rabby, or a hardware wallet
+through them), paste the session key's address, set the limits, read them in words, and sign two EIP-712 messages. Nothing is sent
+and nothing costs gas; the panel downloads `approvals.json` for the agent's machine and keeps it, and the owner's `rules.json` if
+loaded, in that browser only. Every read waits 15 seconds at most, and if Arc's public RPC is blocked (an ad blocker) the panel
+reads Arc through the wallet. `aa/owner.mjs` builds the same approval from a test key in a file, for testnet runs; both use
+`aa/approval.mjs`, and the tests check they give the same file byte for byte.
 
 ## How it works
 
@@ -161,7 +165,7 @@ REFUND 1.50 USDC (50%, per policy) and the refund was withdrawn to the account. 
 the page in a simulated DOM.
 
 Others need more: `test/keys.test.mjs` reads Arc testnet; `test/owner-page.test.mjs` and `site/test/owner.test.mjs` (add `--built`
-for the bundle) check the owner's page against `aa/owner.mjs`, reading Arc testnet; `node site/owner/build.mjs` builds the page's
+for the bundle) check the owner panel against `aa/owner.mjs`, reading Arc testnet; `node site/owner/build.mjs` builds the page's
 `owner.js` with esbuild (`--check` tells if it is up to date); `test/anvil.test.mjs` and `aa/fork.test.mjs` need Foundry's anvil and
 Tenet's escrow built in tenet-pay's `tenet/` (the fork test copies Arc testnet locally).
 

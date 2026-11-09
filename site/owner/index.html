@@ -3,68 +3,184 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Orvyn owner: approve the agent's key</title>
-<meta name="description" content="The owner of an agent approves its session key for one day from their own wallet. Nothing is sent; the approval is a signature.">
+<title>Orvyn by Tenet: owner's panel</title>
+<meta name="description" content="The owner's panel for one agent: account, limits, spending, the day's approval, claims and refunds. Testnet.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="stylesheet" href="owner.css?v=20261106a">
-<script type="module" src="owner.js?v=20261106a"></script>
+<link rel="stylesheet" href="styles.css?v=20261109a">
+<script type="module" src="owner.js?v=20261109a"></script>
 </head>
 <body>
-<main class="owner">
-  <header class="owner-head">
-    <a class="brand" href="../"><span class="brand-name">ORVYN</span><span class="brand-by">BY TENET</span></a>
-    <span class="badge">Testnet</span>
-  </header>
+<div id="top" class="page">
 
-  <h1>Approve your agent's key</h1>
-  <p class="lede">Your agent holds a session key. You approve it for one day, with your limits, by signing in your own wallet. Nothing is sent
-    and nothing costs gas: the approval is a signature that the agent uses with its first payment.</p>
+<!-- 1. Header and wallet -->
+<header id="site-header" class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="../" id="brand-link">
+      <span class="brand-name">ORVYN</span>
+      <span class="brand-sep" aria-hidden="true"></span>
+      <span class="brand-by">BY TENET</span>
+    </a>
+    <span class="badge-testnet"><span class="dot" aria-hidden="true"></span>Testnet</span>
+    <div id="wallet-area" class="wallet-area"></div>
+  </div>
+  <nav id="nav-mobile" class="nav-mobile" aria-label="Panel sections">
+    <a href="#agent" id="nav-m-agent">The agent</a>
+    <a href="#limits" id="nav-m-limits">Limits</a>
+    <a href="#spent" id="nav-m-spent">Spent</a>
+    <a href="#approve" id="nav-m-approve">Approve</a>
+    <a href="#claims" id="nav-m-claims">Claims</a>
+    <a href="#balance" id="nav-m-balance">To withdraw</a>
+  </nav>
+</header>
 
-  <section class="card" id="step-wallet">
-    <h2><span class="n">1</span>Connect your wallet</h2>
-    <p>Your wallet opens the agent's account on Arc Testnet. The wallet only gives its address here; it is asked to sign in step 3.</p>
-    <button type="button" class="btn" id="btn-connect" data-action="connect">Connect wallet</button>
-    <dl class="kv">
-      <dt>Your wallet</dt><dd class="mono" id="owner-address"></dd>
-      <dt>Agent's account</dt><dd class="mono" id="agent-account"></dd>
-    </dl>
-  </section>
-
-  <section class="card" id="step-key" hidden>
-    <h2><span class="n">2</span>The key and your limits</h2>
-    <label class="field"><span>Agent's session key address</span>
-      <input class="input mono" id="f-session" type="text" placeholder="0x..." autocomplete="off" spellcheck="false"></label>
-    <div class="row">
-      <label class="field"><span>Limit per order, USDC (up to 5)</span>
-        <input class="input mono" id="f-max" type="number" min="0.01" max="5" step="0.01" value="1"></label>
-      <label class="field"><span>Orders in the day</span>
-        <select class="input" id="f-orders"><option value="1">1</option><option value="2" selected>2</option></select></label>
+<div class="wrap layout">
+  <aside id="side" class="side" hidden>
+    <nav class="side-nav" aria-label="Panel sections">
+      <a href="#agent" id="nav-agent"><span>02</span>The agent</a>
+      <a href="#limits" id="nav-limits"><span>03</span>Limits</a>
+      <a href="#spent" id="nav-spent"><span>04</span>Spent</a>
+      <a href="#approve" id="nav-approve"><span>05</span>Approve today's key</a>
+      <a href="#claims" id="nav-claims"><span>06</span>Claims</a>
+      <a href="#balance" id="nav-balance"><span>07</span>Balance to withdraw</a>
+    </nav>
+    <div class="side-sources">
+      <span class="label">Sources</span>
+      <div id="sources-list" class="sources-list">
+        <span>Tenet Pay gateway API</span>
+        <span>Arc testnet</span>
+        <span>Arc testnet explorer API</span>
+      </div>
     </div>
-    <button type="button" class="btn btn-light" id="btn-review" data-action="review">Review what you sign</button>
-  </section>
+  </aside>
 
-  <section class="card" id="step-review" hidden>
-    <h2><span class="n">3</span>What you are about to sign</h2>
-    <ul class="words" id="limits-words"></ul>
-    <p class="note">The money stays in the agent's account <span class="mono" id="review-account"></span> until it pays an order into the escrow.
-      Your wallet will ask for two signatures (payments and claims). It shows them as "Enable" with hashes, not in words: these lines are what they
-      say, built from the same values.</p>
-    <button type="button" class="btn" id="btn-sign" data-action="sign">Sign the approval (2 signatures)</button>
-  </section>
+  <main id="main" class="main">
+    <div class="intro">
+      <span class="eyebrow">Owner's panel</span>
+      <h1>One owner, one agent.</h1>
+      <p class="lead">The panel holds no key and stores nothing outside this browser. It reads public sources only: Tenet Pay's gateway API, Arc testnet and its explorer.</p>
+      <div class="legend">
+        <span><span class="glyph glyph-square" aria-hidden="true"></span>on chain: enforced by the session key's policies</span>
+        <span><span class="glyph glyph-circle" aria-hidden="true"></span>in Orvyn's MCP: rules in code</span>
+        <span><span class="glyph glyph-dot" aria-hidden="true"></span>testnet: times depend on the GenLayer testnet</span>
+      </div>
+    </div>
 
-  <section class="card" id="step-done" hidden>
-    <h2><span class="n">4</span>Give the approval to the agent</h2>
-    <p id="done-summary"></p>
-    <p>The file <span class="mono">approvals.json</span> was downloaded. Put it on the agent's machine (in Orvyn, <span class="mono">aa/approvals.json</span>).
-      It holds your limits and your signatures, and no key. <a id="download" href="#">Download it again</a>.</p>
-  </section>
+    <div id="panel-error" class="load-error" role="alert" hidden></div>
+    <div id="panel-wait" class="load-error" role="status" hidden></div>
 
-  <p class="error" id="error" role="alert" hidden></p>
-  <p class="foot">Approved for one day on purpose: a new key each day, so unused days never add up. The chain enforces the limit per order,
-    the number of orders, the end date and the gas budget.</p>
-</main>
+    <section id="connect" class="section">
+      <div class="card connect-card">
+        <div class="connect-copy">
+          <h2>Connect the owner's wallet</h2>
+          <p>A browser wallet, used for two things: to show which agent account it opens, and to sign the day's approval. It is never asked to send a transaction.</p>
+          <div><button id="connect-wallet" class="btn btn-primary btn-lg" type="button" data-action="connect">Connect wallet<span aria-hidden="true">→</span></button></div>
+        </div>
+        <div class="tile connect-tile">
+          <span class="mono-src">the wallet signs</span>
+          <span>two EIP-712 "Enable" signatures</span>
+          <span class="hl">no gas · nothing sent</span>
+        </div>
+      </div>
+    </section>
+
+    <div id="dashboard" hidden>
+
+      <!-- 2. The agent -->
+      <section id="agent" class="section">
+        <div class="section-head">
+          <div class="section-title"><span class="section-num">02</span><h2>The agent</h2></div>
+          <span id="key-state" class="pill"></span>
+        </div>
+        <div class="card">
+          <div class="banner">
+            <span id="key-sentence" class="banner-text"></span>
+            <a id="approve-cta" class="btn btn-primary btn-sm" href="#approve" hidden>Approve today's key<span aria-hidden="true">→</span></a>
+            <button id="load-approval" class="btn btn-secondary btn-sm" type="button" data-action="load-approval">Load approvals.json</button>
+            <input id="approval-file" type="file" accept="application/json,.json" hidden>
+          </div>
+          <div id="agent-tiles" class="tiles"></div>
+        </div>
+      </section>
+
+      <!-- 3. Limits -->
+      <section id="limits" class="section">
+        <div class="section-head">
+          <div class="section-title"><span class="section-num">03</span><h2>Limits</h2></div>
+          <button id="load-rules" class="btn btn-secondary btn-sm" type="button" data-action="load-rules">Load rules.json</button>
+          <input id="rules-file" type="file" accept="application/json,.json" hidden>
+        </div>
+        <div id="limits-grid" class="limits-grid"></div>
+        <p id="limits-note" class="note">A daily USDC total on chain (a policy that sums amounts) is future work.</p>
+      </section>
+
+      <!-- 4. Spent -->
+      <section id="spent" class="section">
+        <div class="section-head">
+          <div class="section-title"><span class="section-num">04</span><h2>Spent</h2></div>
+          <div class="seg" role="tablist" aria-label="Period">
+            <button id="range-today" class="seg-btn" role="tab" type="button" data-action="range" data-range="today">Today</button>
+            <button id="range-7d" class="seg-btn" role="tab" type="button" data-action="range" data-range="7d">Last 7 days</button>
+          </div>
+        </div>
+        <div id="spent-stats" class="stats"></div>
+        <div class="card">
+          <div class="table-head spent-cols spent-table-head"><span>Order</span><span>Store</span><span>Amount</span><span>Paid</span><span>Transaction</span></div>
+          <div id="spent-rows"></div>
+          <div class="table-foot"><span id="range-caption"></span><span id="range-total" class="strong"></span></div>
+        </div>
+      </section>
+
+      <!-- 5. Approve today's key -->
+      <section id="approve" class="section">
+        <div class="section-head">
+          <div class="section-title"><span class="section-num">05</span><h2>Approve today's key</h2></div>
+        </div>
+        <div class="card approve">
+          <ol id="approve-steps" class="steps"></ol>
+          <div class="approve-main">
+            <div id="approve-progress" class="progress"></div>
+            <div class="approve-body">
+              <div id="approve-content" class="approve-content"></div>
+              <div id="approve-actions" class="actions"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Claims -->
+      <section id="claims" class="section">
+        <div class="section-head">
+          <div class="section-title"><span class="section-num">06</span><h2>Claims</h2></div>
+          <span class="mono-src">newest first · times in UTC</span>
+        </div>
+        <div id="claims-list"></div>
+      </section>
+
+      <!-- 7. Balance to withdraw -->
+      <section id="balance" class="section">
+        <div class="section-head">
+          <div class="section-title"><span class="section-num">07</span><h2>Balance to withdraw</h2></div>
+        </div>
+        <div id="balance-grid" class="pair-grid"></div>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-col">
+        <span class="label">Not in the panel</span>
+        <span>Any private key, or signing anything but the day's approval.</span>
+        <span>Paying, claiming or withdrawing: those are the agent's, through the MCP.</span>
+      </div>
+      <div class="footer-col">
+        <span class="label">Testnet</span>
+        <span>Arc testnet and GenLayer testnet. Times depend on the GenLayer testnet.</span>
+      </div>
+    </footer>
+  </main>
+</div>
+</div>
 </body>
 </html>
