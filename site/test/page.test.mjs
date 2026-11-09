@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { JSDOM } from "jsdom";
 
 const DIR = new URL("..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1").replace(/\/$/, "");
-const html = readFileSync(DIR + "/index.html", "utf8").replace('<script src="app.js" defer></script>', "");
+const html = readFileSync(DIR + "/index.html", "utf8").replace(/<script src="app\.js[^"]*" defer><\/script>/, "");
 const app = readFileSync(DIR + "/app.js", "utf8");
 const data = JSON.parse(readFileSync(DIR + "/data.json", "utf8"));
 let failed = 0;
@@ -115,6 +115,7 @@ check(/\.motion \[data-reveal\]/.test(readFileSync(DIR + "/styles.css", "utf8"))
 {
   const R = page({ reduce: true }); await tick(); await tick(); R.step(200);
   check(R.d.querySelector('[data-console="scroller"]').children.length === data.console.lines.length && !R.d.documentElement.classList.contains("motion"), "reduced motion: full console, no reveal animation");
+  check(!R.d.querySelector('[data-note="owner-panel"]').closest("[hidden]") && R.d.querySelector('[data-link="owner-header"]'), "reduced motion: the owner panel's button and line are there at once");
 }
 
 // what the page says: only what Orvyn does today
@@ -139,7 +140,15 @@ check(/^Late path tested on Arc testnet and GenLayer Bradbury Phase 2: .*REFUND 
   "Status: the late path tested (test L), with its transcript and the verdict on GenLayer");
 check(ownerNote.querySelector('[data-link="status-owner-page"]').getAttribute("href") === "owner/" && /browser wallet/.test(ownerNote.textContent)
   && !/signing the owner's approval from a wallet/.test(body) && /approving from a phone wallet/.test(body),
-  "Status: the owner's page is linked; signing from a wallet is no longer listed as not built, a phone wallet is");
+  "Status: the owner panel is linked; signing from a wallet is no longer listed as not built, a phone wallet is");
+const ownerBtn = d.querySelector('[data-link="owner-header"]'), ghBtn = d.querySelector('[data-link="github-header"]');
+check(ownerBtn && ownerBtn.getAttribute("href") === "owner/" && !ownerBtn.hasAttribute("target") && ownerBtn.textContent.trim() === "Owner panel"
+  && ownerBtn.nextElementSibling === ghBtn && ownerBtn.classList.contains("btn-github"),
+  "header: an Owner panel button just left of GitHub, with the same bordered style, opening /owner/ in the same tab");
+const sessionLine = d.querySelector('#session [data-note="owner-panel"]');
+check(sessionLine && sessionLine.textContent.trim() === "Approve your agent's key in the owner panel." && sessionLine.querySelector('[data-link="session-owner-panel"]').getAttribute("href") === "owner/",
+  "The session key: the line Approve your agent's key in the owner panel., linked to /owner/");
+check(!/[–—]/.test(readFileSync(DIR + "/index.html", "utf8")), "no long dashes in the page");
 check(/Another run: an order that arrived late/.test(lateRun.textContent) && /REFUND 1\.50 USDC per policy/.test(lateRun.textContent)
   && lateRun.querySelector('[data-link="demo-late-transcript"]').getAttribute("href") === "https://github.com/randyparrs/orvyn/blob/main/demo/dL-transcript.md",
   "Demo: test L, the late run, with its transcript");

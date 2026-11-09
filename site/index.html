@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="stylesheet" href="styles.css">
-<script src="app.js" defer></script>
+<link rel="stylesheet" href="styles.css?v=20261109a">
+<script src="app.js?v=20261109a" defer></script>
 </head>
 <body>
 <div id="top" class="page">
@@ -30,6 +30,7 @@
       <a href="#tools" data-link="nav-tools">Tools</a>
       <a href="#demo" data-link="nav-demo">Demo</a>
     </nav>
+    <a class="btn-github btn-owner" href="owner/" data-link="owner-header">Owner panel</a>
     <a class="btn-github" href="https://github.com/randyparrs/orvyn" data-link="github-header">GitHub<svg class="ico" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4"/></svg></a>
   </div>
   <nav class="nav nav-mobile" aria-label="Main" data-nav="mobile">
@@ -268,6 +269,7 @@
       <div class="sec-stack">
         <h2 class="sec-title" data-reveal="head">The session key and its limits on Arc</h2>
         <p class="sec-lead" data-reveal="head">The owner's account is an ERC-4337 smart account (ZeroDev Kernel 3.3, EntryPoint 0.7). The agent never holds the owner's key. It signs with a session key that the owner approved, and the chain enforces what that key may do.</p>
+        <p class="sec-lead" data-reveal="head" data-note="owner-panel">Approve your agent's key in the <a href="owner/" data-link="session-owner-panel">owner panel</a>.</p>
       </div>
     </div>
 
@@ -405,7 +407,7 @@
         </div>
         <p class="status-note">Dispute path tested on Arc testnet: the store disputed with a fact, the closing round ran and the judge decided DENY (claim not proven). See <a href="https://github.com/randyparrs/orvyn/blob/main/demo/dD-transcript.md" data-link="status-dispute-transcript">the transcript</a> and <a href="https://scan.bradbury.genlayer.com/tx/0x854c2015c6ee27d03cf1d7bf872b9f7204509ba43bbad610978b694067bec749" data-link="status-dispute-verdict">the verdict</a>.</p>
         <p class="status-note" data-note="late">Late path tested on Arc testnet and GenLayer Bradbury Phase 2: the agent opened a late claim on its own, registered the store's three emails verified on Lacre in one transaction, and the judge decided REFUND 1.50 USDC (50%, per policy). See <a href="https://github.com/randyparrs/orvyn/blob/main/demo/dL-transcript.md" data-link="status-late-transcript">the transcript</a> and <a href="https://scan.bradbury.genlayer.com/tx/0xe7fd9a6dedb3ec5adff2083135fe40dc2e0e1d7ee9278b2e567540b1f764747c" data-link="status-late-verdict">the verdict</a>.</p>
-        <p class="status-note" data-note="owner">The owner approves the agent's key for the day from a browser wallet, with the limits in words before signing: <a href="owner/" data-link="status-owner-page">the owner's page</a>.</p>
+        <p class="status-note" data-note="owner">The owner approves the agent's key for the day from a browser wallet, with the limits in words before signing: <a href="owner/" data-link="status-owner-page">the owner panel</a>.</p>
       </div>
     </div>
   </div>
