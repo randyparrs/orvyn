@@ -143,8 +143,9 @@ check(ownerNote.querySelector('[data-link="status-owner-page"]').getAttribute("h
   "Status: the owner panel is linked; signing from a wallet is no longer listed as not built, a phone wallet is");
 const ownerBtn = d.querySelector('[data-link="owner-header"]'), ghBtn = d.querySelector('[data-link="github-header"]');
 check(ownerBtn && ownerBtn.getAttribute("href") === "owner/" && !ownerBtn.hasAttribute("target") && ownerBtn.textContent.trim() === "Owner panel"
-  && ownerBtn.nextElementSibling === ghBtn && ownerBtn.classList.contains("btn-github"),
-  "header: an Owner panel button just left of GitHub, with the same bordered style, opening /owner/ in the same tab");
+  && ownerBtn.nextElementSibling === ghBtn && ownerBtn.classList.contains("btn-github") && ownerBtn.classList.contains("btn-owner")
+  && /\.btn-owner \{[^}]*background: var\(--c-navy\)[^}]*color: #fff/.test(readFileSync(DIR + "/styles.css", "utf8")),
+  "header: an Owner panel button just left of GitHub, filled navy with light text like Connect an agent, opening /owner/ in the same tab");
 const sessionLine = d.querySelector('#session [data-note="owner-panel"]');
 check(sessionLine && sessionLine.textContent.trim() === "Approve your agent's key in the owner panel." && sessionLine.querySelector('[data-link="session-owner-panel"]').getAttribute("href") === "owner/",
   "The session key: the line Approve your agent's key in the owner panel., linked to /owner/");

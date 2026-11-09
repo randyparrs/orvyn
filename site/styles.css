@@ -130,7 +130,9 @@ button { font-family: inherit; }
   text-decoration: none; font: 600 14px/1 var(--f-sans);
 }
 .btn-github:hover { border-color: var(--c-navy); background: #fff; color: var(--c-navy); }
-/* Owner panel: the same pill as GitHub, to its left; GitHub follows it with a small gap */
+/* Owner panel: the GitHub pill's shape, filled navy like Connect an agent so it stands out; GitHub follows it with a small gap */
+.btn-owner { background: var(--c-navy); border-color: var(--c-navy); color: #fff; box-shadow: 0 10px 24px -12px rgba(11, 26, 51, 0.7); }
+.btn-owner:hover { background: var(--c-navy-hover); border-color: var(--c-navy-hover); color: #fff; }
 .btn-owner + .btn-github { margin-left: 10px; }
 @media (max-width: 520px) {
   .btn-owner, .btn-owner + .btn-github { height: 38px; padding: 0 14px; font-size: 13px; gap: 8px; }

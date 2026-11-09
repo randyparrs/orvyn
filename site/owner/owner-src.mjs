@@ -335,8 +335,10 @@ function renderClaims() {
     const needsStore = v.claim.judge === "subjective";
     const track = STATUSES.map((label, i) => {
       const skip = (i === 3 && cs > 3 && !v.proof_requested_at) || (i === 1 && !needsStore && cs > 1);
-      const cls = skip ? "" : i < cs ? "done" : i === cs ? "current" : "";
-      return `<li class="${cls}"><span class="track-mark"></span><span class="track-label">${esc(label)}</span><span class="track-note">${skip ? "not asked" : i === cs ? "now" : ""}</span></li>`;
+      // the last status (withdrawn) ends the claim: it shows as done, not as the step in progress
+      const ended = cs === STATUSES.length - 1, now = i === cs && !ended;
+      const cls = skip ? "" : i < cs || (i === cs && ended) ? "done" : now ? "current" : "";
+      return `<li class="${cls}"><span class="track-mark"></span><span class="track-label">${esc(label)}</span><span class="track-note">${skip ? "not asked" : now ? "now" : ""}</span></li>`;
     }).join("");
     const steps = claimSteps(v).map((s) => `<li><span class="tl-time">${esc(s.t)}</span><span class="tl-rail"></span><span class="tl-body"><span class="tl-title">${esc(s.title)}</span>${s.note ? `<span class="tl-note">${esc(s.note)}</span>` : ""}${txLink(s.tx, s.net === "bradbury" ? "genlayer" : "arc")}</span></li>`).join("")
       + (cs === 6 ? (d.withdrawals || []).filter((w) => v.settled && w.at >= v.settled.at).slice(0, 1).map((w) => `<li><span class="tl-time">${esc(hm(w.at))}</span><span class="tl-rail"></span><span class="tl-body"><span class="tl-title">Withdrawn to the agent's account</span>${txLink(w.tx)}</span></li>`).join("") : "");

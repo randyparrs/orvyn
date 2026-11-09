@@ -87,6 +87,10 @@ check(claim.includes("Arrived late") && claim.includes("REFUND") && claim.includ
   && claim.includes("3 store emails registered in one transaction") && claim.includes("records 3, 4, 5")
   && d.getElementById("claim-link-TS-920403").getAttribute("href") === "https://paytenet.site/orders/#/orders/TS-920403",
   "claims: the late claim from the gateway, its verdict, one line per transaction (three emails in one), and My orders");
+const lastStep = d.querySelector("#claim-TS-920403 .track li:last-child");
+check(lastStep && /Withdrawn/.test(lastStep.textContent) && lastStep.classList.contains("done") && !/now/.test(lastStep.textContent)
+  && !d.querySelector("#claim-TS-920403 .track li.current"),
+  "claims: a withdrawn claim has ended, so Withdrawn shows as done, with no step marked now");
 check(!claim.includes("by the agent alone"), "without rules.json, the panel does not say who opened the claim");
 check(/0\.00 USDC/.test(text("balance-amount")) && /No refunds waiting/.test(text("balance-orders")), "balance to withdraw: the escrow's claimable for this account");
 
